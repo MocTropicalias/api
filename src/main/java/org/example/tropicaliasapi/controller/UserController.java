@@ -26,7 +26,7 @@ import static org.example.tropicaliasapi.utils.Utils.getErros;
 @RequestMapping("/user")
 public class UserController {
     UserService userService;
-    HashMap<String, String> userNotFount = new HashMap<>() {{
+    HashMap<String, String> userNotFound = new HashMap<>() {{
         put("details", "Usuário não encontrado");
     }};
 
@@ -82,7 +82,7 @@ public class UserController {
     public ResponseEntity<?> getByID(@PathVariable("id") int id) {
         User user = userService.getByID(id);
         if (user == null) {
-            return new ResponseEntity<>(userNotFount, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -106,7 +106,7 @@ public class UserController {
         }
         User updatedUser = userService.updateUser(id, user);
         if (updatedUser == null) {
-            return new ResponseEntity<>(userNotFount, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
@@ -129,14 +129,14 @@ public class UserController {
         if (trueDelete) {
             User deletedUser = userService.deleteUserTrue(id);
             if (deletedUser == null) {
-                return new ResponseEntity<>(userNotFount, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(deletedUser, HttpStatus.OK);
         }
 
         User deletedUser = userService.deleteUser(id);
         if (deletedUser == null) {
-            return new ResponseEntity<>(userNotFount, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(deletedUser, HttpStatus.OK);
 
