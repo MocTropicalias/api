@@ -133,4 +133,23 @@ public class User {
     public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", userName='" + userName + '\'' +
+                ", descricaoUsuario='" + descricaoUsuario + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", nome='" + nome + '\'' +
+                ", nascimento=" + nascimento +
+                ", senha='" + senha + '\'' +
+                ", urlFoto='" + urlFoto + '\'' +
+                ", deletedAt=" + deletedAt +
+                ", createdAt=" + createdAt +
+                '}';
+    }
+
+
 }

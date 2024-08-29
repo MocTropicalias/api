@@ -66,7 +66,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public ResponseEntity<?> getAll() {
-        return new ResponseEntity<>(userService.getALL(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
     //ByID//
