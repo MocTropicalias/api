@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.tropicaliasapi.domain.UserCreate;
 import org.example.tropicaliasapi.domain.UserUpdate;
 import org.example.tropicaliasapi.model.User;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 import static org.example.tropicaliasapi.utils.Utils.getErros;
 
+@Tag(name = "Usuário")
 @RestController
 @RequestMapping("/user")
 public class UserController {
