@@ -18,4 +18,8 @@ public class EnderecoService {
     public List<Endereco> getAll() {
         return enderecoRepository.findAll();
     }
+
+    public Endereco getById(Long id){
+        return enderecoRepository.findById(id).orElse(null);
+    }
 }
