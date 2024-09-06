@@ -23,7 +23,7 @@ jobs:
     - name: Render Deploy Action
       uses: johnbeynon/render-deploy-action@v0.0.8
       with:
-        service-id: Ainda Não Temos
-        api-key: Ainda Não Temos
+        service-id: srv-cr8sopaj1k6c73f8h2hg
+        api-key: 88UTAzIoHXM
           
 ##Teste da Pipeline
