@@ -30,7 +30,7 @@ Confira as principais Linguagens, Frameworks e Bancos de Dados usados:
 ## 🤝 Colaboradores
 
 Nossos colaboradores do Projeto são:
-- Nícolas Albano
+- <a href="https://github.com/nicolasruoco">Nícolas Albano</a?
 - Artur Cassuriaga
 - [Se mais alguém ajudar nessa etapa, se adicionem pf!!]
 
