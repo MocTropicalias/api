@@ -26,7 +26,8 @@ public class UserService {
         User newUser = new User(
                 user.getUsername(),
                 user.getEmail(),
-                user.getPassword()
+                user.getPassword(),
+                user.getFirebaseId()
         );
         newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()).getTime());
         return userRepository.save(newUser);

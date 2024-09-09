@@ -58,12 +58,17 @@ public class User {
     @Schema(description = "Timestamp da criação do usuário", example = "1567865345")
     private Long createdAt;
 
+
+    @Column(name = "var_id_firebase")
+    @Schema(description = "Id gerado pelo firebase (Não aparece para o usuário, apenas usado para vincular os dois bancos)", example = "tKBGsn4xIRMWWzyT2Okim6YuoZ23")
+    private String firebaseId;
     //Constructors//////////////////////////////////////////////////////////////
 
-    public User(String userName, String email, String senha) {
+    public User(String userName, String email, String senha, String firebaseId) {
         this.userName = userName;
         this.email = email;
         this.senha = senha;
+        this.firebaseId = firebaseId;
     }
 
     public User() {
@@ -134,6 +139,14 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public String getFirebaseId() {
+        return firebaseId;
+    }
+
+    public void setFirebaseId(String firebaseId) {
+        this.firebaseId = firebaseId;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -148,6 +161,7 @@ public class User {
                 ", urlFoto='" + urlFoto + '\'' +
                 ", deletedAt=" + deletedAt +
                 ", createdAt=" + createdAt +
+                ", firebaseId=" + firebaseId +
                 '}';
     }
 
