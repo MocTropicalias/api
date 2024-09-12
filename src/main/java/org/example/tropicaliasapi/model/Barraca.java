@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
-@Table(name = "tb_barraca")
 @Entity
+@Table(name = "tb_barraca")
 @Schema(description = "Representa uma barraca do evento")
 public class Barraca {
     @Id

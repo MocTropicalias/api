@@ -4,8 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 //Criar apenas o consulta geral e por id, o resto dos controles será feito via jdbc pelo 1°
-@Table(name = "tb_estado")
+
 @Entity
+@Table(name = "tb_estado")
 @Schema(description = "Representa um estado federativo do Brasil")
 public class Estado {
     @Id

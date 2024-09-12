@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
-@Table(name = "tb_follow")
 @Entity
+@Table(name = "tb_follow")
 @Schema(description = "Representa o ato de seguir uma pessoa -> Cada pessoa que segue outra gera um registro nessa tabela")
 public class Follow {
     @Id

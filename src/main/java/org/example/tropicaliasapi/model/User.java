@@ -11,18 +11,19 @@ import java.sql.Date;
 @Schema(description = "Informações do usuário")
 public class User {
 
-    //Attributes//////////////////////////////////////////////////////////////
+    // Atributos /////////////////////////////////////////////////////////////
 
     @Id
-    @Column(name = "int_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "pk_int_id_usuario")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "ID do usuário, gerado automaticamente", example = "1")
     private long id;
 
-    @Column(name = "var_email")
-    @Schema(description = "Email", example = "example@example.com")
+    @Column(name = "var_email", nullable = false, unique = true)
+    @Schema(description = "Email do usuário", example = "example@example.com")
     private String email;
 
-    @Column(name = "var_user_name")
+    @Column(name = "var_user_name", nullable = false, unique = true)
     @Schema(description = "Nome do usuário", example = "usuario1")
     private String userName;
 
@@ -30,51 +31,52 @@ public class User {
     @Schema(description = "Biografia do usuário", example = "Lorem ipsum dolor sit amet")
     private String descricaoUsuario;
 
-    @Column(name = "var_cpf")
-    @Schema(description = "CPF", example = "12345678901")
+    @Column(name = "var_cpf", nullable = false, unique = true)
+    @Schema(description = "CPF do usuário", example = "12345678901")
     private String cpf;
 
     @Column(name = "var_nome")
-    @Schema(description = "Nome de exebição", example = "Lagostin Branco")
+    @Schema(description = "Nome de exibição do usuário", example = "Lagostin Branco")
     private String nome;
 
     @Column(name = "dt_nascimento")
-    @Schema(description = "Data de Nascimento", example = "12/12/2022")
+    @Schema(description = "Data de Nascimento do usuário", example = "1990-12-12")
     private Date nascimento;
 
-    @Column(name = "var_senha")
-    @Schema(description = "Senha", example = "HLsdasdBDibadhAsaIUidabspaADdiub")
+    @Column(name = "var_senha", nullable = false)
+    @Schema(description = "Senha do usuário", example = "HLsdasdBDibadhAsaIUidabspaADdiub")
     private String senha;
 
     @Column(name = "text_foto")
-    @Schema(description = "URL da foto do usuário", example = "https://url.com")
+    @Schema(description = "URL da foto do usuário", example = "https://url.com/foto.jpg")
     private String urlFoto;
 
     @Column(name = "deleted_at")
-    @Schema(description = "Timestamp da deleção do usuário", example = "1567865345")
+    @Schema(description = "Timestamp da deleção do usuário", example = "1622567890")
     private Long deletedAt;
 
-    @Column(name = "created_at")
-    @Schema(description = "Timestamp da criação do usuário", example = "1567865345")
+    @Column(name = "created_at", nullable = false)
+    @Schema(description = "Timestamp da criação do usuário", example = "1612567890")
     private Long createdAt;
 
-
-    @Column(name = "var_id_firebase")
-    @Schema(description = "Id gerado pelo firebase (Não aparece para o usuário, apenas usado para vincular os dois bancos)", example = "tKBGsn4xIRMWWzyT2Okim6YuoZ23")
+    @Column(name = "var_id_firebase", nullable = false, unique = true)
+    @Schema(description = "ID gerado pelo Firebase para o usuário", example = "tKBGsn4xIRMWWzyT2Okim6YuoZ23")
     private String firebaseId;
-    //Constructors//////////////////////////////////////////////////////////////
+
+    // Construtores /////////////////////////////////////////////////////////////
 
     public User(String userName, String email, String senha, String firebaseId) {
         this.userName = userName;
         this.email = email;
         this.senha = senha;
         this.firebaseId = firebaseId;
+        this.createdAt = System.currentTimeMillis();  // Define o timestamp de criação automaticamente
     }
 
     public User() {
     }
 
-    //Get/Sets//////////////////////////////////////////////////////////////
+    // Métodos de Get/Set /////////////////////////////////////////////////////////////
 
     public void updateUser(UserUpdate updatedUserInformation) {
         this.email = updatedUserInformation.getEmail();
@@ -161,9 +163,7 @@ public class User {
                 ", urlFoto='" + urlFoto + '\'' +
                 ", deletedAt=" + deletedAt +
                 ", createdAt=" + createdAt +
-                ", firebaseId=" + firebaseId +
+                ", firebaseId='" + firebaseId + '\'' +
                 '}';
     }
-
-
 }

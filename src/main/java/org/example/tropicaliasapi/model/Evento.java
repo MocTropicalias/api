@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
-@Table(name = "tb_evento")
 @Entity
+@Table(name = "tb_evento")
 @Schema(description = "Representa um evento cadastrado")
 public class Evento {
     @Id

@@ -5,8 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 
-@Table(name = "tb_cor_araci")
 @Entity
+@Table(name = "tb_cor_araci")
 @Schema(description = "Tabela para as paletas de cores dísponíveis para a personaliação")
 public class Cor {
     @Id
