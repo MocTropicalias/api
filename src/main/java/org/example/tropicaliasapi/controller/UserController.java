@@ -75,7 +75,7 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "Procurar usuário por id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuários retornado com sucesso",
+            @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
             ),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
