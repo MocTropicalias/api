@@ -131,6 +131,29 @@ public class UserController {
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
+    @PutMapping("/users/photo/{id}/{photo}")
+    @Operation( summary = "Adicionar foto para o usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuários retornado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserUpdate.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "Informações inválidas", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> updateUser(@PathVariable("id") int id, @PathVariable("photo") String url,BindingResult result) {
+        Map<String, String> erros = getErros(result);
+        if (!erros.isEmpty()) {
+            return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
+        }
+        User user = userService.updatePhoto(id, url);
+        if (user == null) {
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     //Delete//////////////////////////////////////////////////////////////////////////////////
 
 

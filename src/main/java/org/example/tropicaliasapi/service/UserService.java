@@ -21,7 +21,6 @@ public class UserService {
 
     //Create//////////////////////////////////////////////////////////////////////////////////
 
-
     public User createUser(UserCreate user) {
         User newUser = new User(
                 user.getUsername(),
@@ -52,6 +51,16 @@ public class UserService {
 
     //Update//////////////////////////////////////////////////////////////////////////////////
 
+    public User updatePhoto(int id, String url){
+        User user = userRepository.findById(id).orElse(null);
+
+        if(user == null){
+            return null;
+        }
+
+        user.setUrlFoto(url);
+        return userRepository.save(user);
+    }
 
     public User updateUser(int id, UserUpdate updatedUserInformation) {
         User user = userRepository.findById(id).orElse(null);

@@ -149,6 +149,10 @@ public class User {
         this.firebaseId = firebaseId;
     }
 
+    public void setUrlFoto(String urlFoto){
+        this.urlFoto = urlFoto;
+    }
+
     @Override
     public String toString() {
         return "User{" +
