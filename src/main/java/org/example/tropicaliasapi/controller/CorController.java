@@ -44,7 +44,7 @@ public class CorController {
     @Operation(summary = "Procurar paleta de cores pelo seu id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cor retornada com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Cor.class))
             ),
             @ApiResponse(responseCode = "404", description = "Paleta de cores não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)

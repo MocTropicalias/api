@@ -44,7 +44,7 @@ public class EnderecoController {
     @Operation(summary = "Procurar endereço pelo seu id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Endereço retornado com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Endereco.class))
             ),
             @ApiResponse(responseCode = "404", description = "Endereço não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
