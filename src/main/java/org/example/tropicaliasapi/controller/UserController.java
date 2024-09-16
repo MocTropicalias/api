@@ -89,6 +89,24 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    //ByFirebaseID//
+    @GetMapping("/firebase/{id}")
+    @Operation(summary = "Procurar usuário por id do firebase")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> getByID(@PathVariable("id") String firebaseId) {
+        User user = userService.getByFirebaseId(firebaseId);
+        if (user == null) {
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     //Update//////////////////////////////////////////////////////////////////////////////////
 
     @PutMapping("/{id}")

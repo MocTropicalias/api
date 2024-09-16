@@ -46,6 +46,9 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    public User getByFirebaseId(String firebaseId){
+        return userRepository.findUserByFirebaseId(firebaseId).orElse(null);
+    }
 
     //Update//////////////////////////////////////////////////////////////////////////////////
 
