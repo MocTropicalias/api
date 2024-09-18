@@ -11,9 +11,11 @@ import java.util.List;
 @Service
 public class FollowService {
     FollowRepository followRepository;
+    UserService userService;
 
-    public FollowService(FollowRepository followRepository) {
+    public FollowService(FollowRepository followRepository, UserService userService) {
         this.followRepository = followRepository;
+        this.userService = userService;
     }
 
     public List<Follow> getAll(){
@@ -22,5 +24,14 @@ public class FollowService {
 
     public Follow getById(Long id){
         return followRepository.findById(id).orElse(null);
+    }
+
+    public int countFollowers(Long id) {
+
+        if (userService.getByID(id.intValue()) == null) {
+            return -1;
+        }
+
+        return followRepository.countFollowsByIdSeguido(id);
     }
 }

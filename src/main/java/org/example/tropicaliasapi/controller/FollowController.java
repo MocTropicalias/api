@@ -56,4 +56,21 @@ public class FollowController {
         }
         return new ResponseEntity<>(follow, HttpStatus.OK);
     }
+
+    @GetMapping("/countfollowers/{id}")
+    @Operation(summary = "Procurar quantidade de seguidores pelo id do usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Quantidade retornada com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Follow.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Usuário não existe no banco!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> countFollowers(@PathVariable("id") Long id) {
+        int quantidade = followService.countFollowers(id);
+        if (quantidade < 0) {
+            return new ResponseEntity<>("O usuário não existe!", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(quantidade, HttpStatus.OK);
+    }
 }
