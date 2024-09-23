@@ -131,7 +131,7 @@ public class UserController {
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    @PutMapping("/users/photo/{id}/{photo}")
+    @PutMapping("/photo/{id}/{photo}")
     @Operation( summary = "Adicionar foto para o usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuários retornado com sucesso",
