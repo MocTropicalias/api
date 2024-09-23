@@ -21,12 +21,12 @@ public class UserService {
 
     //Create//////////////////////////////////////////////////////////////////////////////////
 
-
     public User createUser(UserCreate user) {
         User newUser = new User(
                 user.getUsername(),
                 user.getEmail(),
-                user.getPassword()
+                user.getPassword(),
+                user.getFirebaseId()
         );
         newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()).getTime());
         return userRepository.save(newUser);
@@ -45,9 +45,22 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    public User getByFirebaseId(String firebaseId){
+        return userRepository.findUserByFirebaseId(firebaseId).orElse(null);
+    }
 
     //Update//////////////////////////////////////////////////////////////////////////////////
 
+    public User updatePhoto(int id, String url){
+        User user = userRepository.findById(id).orElse(null);
+
+        if(user == null){
+            return null;
+        }
+
+        user.setUrlFoto(url);
+        return userRepository.save(user);
+    }
 
     public User updateUser(int id, UserUpdate updatedUserInformation) {
         User user = userRepository.findById(id).orElse(null);

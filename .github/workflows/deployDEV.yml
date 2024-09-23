@@ -1,8 +1,8 @@
 name: Java CI with Maven
 
 on:
-  pull_request:
-    branches: [ "main" ]
+  push:
+    branches: [ "dev" ]
 
 jobs:
   build:
@@ -23,7 +23,5 @@ jobs:
     - name: Render Deploy Action
       uses: johnbeynon/render-deploy-action@v0.0.8
       with:
-        service-id: srv-cr8sopaj1k6c73f8h2hg
-        api-key: 88UTAzIoHXM
-          
-##Teste da Pipeline
+        service-id: ${{ secrets.ServiceIdDev }}
+        api-key: ${{ secrets.ApiKeyDev }}

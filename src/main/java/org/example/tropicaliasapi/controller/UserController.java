@@ -75,7 +75,7 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "Procurar usuário por id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuários retornado com sucesso",
+            @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
             ),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
@@ -83,6 +83,24 @@ public class UserController {
     })
     public ResponseEntity<?> getByID(@PathVariable("id") int id) {
         User user = userService.getByID(id);
+        if (user == null) {
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    //ByFirebaseID//
+    @GetMapping("/firebase/{id}")
+    @Operation(summary = "Procurar usuário por id do firebase")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> getByID(@PathVariable("id") String firebaseId) {
+        User user = userService.getByFirebaseId(firebaseId);
         if (user == null) {
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
@@ -111,6 +129,29 @@ public class UserController {
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    @PutMapping("/users/photo/{id}/{photo}")
+    @Operation( summary = "Adicionar foto para o usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuários retornado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserUpdate.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "Informações inválidas", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> updateUser(@PathVariable("id") int id, @PathVariable("photo") String url,BindingResult result) {
+        Map<String, String> erros = getErros(result);
+        if (!erros.isEmpty()) {
+            return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
+        }
+        User user = userService.updatePhoto(id, url);
+        if (user == null) {
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     //Delete//////////////////////////////////////////////////////////////////////////////////

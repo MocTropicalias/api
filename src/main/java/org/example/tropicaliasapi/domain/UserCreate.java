@@ -1,6 +1,7 @@
 package org.example.tropicaliasapi.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,6 +22,11 @@ public class UserCreate {
     @Email
     @Schema(description = "Email", example = "example@example.com")
     private final String email;
+
+    @NotNull
+    @Column(name = "var_id_firebase")
+    @Schema(description = "Id gerado pelo firebase (Não aparece para o usuário, apenas usado para vincular os dois bancos)", example = "tKBGsn4xIRMWWzyT2Okim6YuoZ23")
+    private String firebaseId;
 
     //Constructors//////////////////////////////////////////////////////////////
 
@@ -43,6 +49,8 @@ public class UserCreate {
     public @NotNull @Email String getEmail() {
         return email;
     }
+
+    public @NotNull String getFirebaseId(){return firebaseId;}
 
 }
 
