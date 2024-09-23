@@ -31,7 +31,7 @@ public class User {
     @Schema(description = "Biografia do usuário", example = "Lorem ipsum dolor sit amet")
     private String descricaoUsuario;
 
-    @Column(name = "var_cpf", nullable = false, unique = true)
+    @Column(name = "var_cpf", unique = true)
     @Schema(description = "CPF do usuário", example = "12345678901")
     private String cpf;
 
