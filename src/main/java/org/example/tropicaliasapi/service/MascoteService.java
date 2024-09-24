@@ -23,4 +23,6 @@ public class MascoteService {
     public Mascote getById(Long id){
         return mascoteRepository.findById(id).orElse(null);
     }
+
+    public Mascote getByUserId(Long id){return mascoteRepository.getMascoteByUsuarioId(id).orElse(null);}
 }

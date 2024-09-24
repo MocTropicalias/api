@@ -18,7 +18,7 @@ public class User {
     @Column(name = "pk_int_id_usuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID do usuário, gerado automaticamente", example = "1")
-    private long id;
+    private Long id;
 
     @Column(name = "var_email", nullable = false, unique = true)
     @Schema(description = "Email do usuário", example = "example@example.com")
@@ -74,6 +74,21 @@ public class User {
         this.createdAt = Date.valueOf(LocalDate.now());  // Define o timestamp de criação automaticamente
     }
 
+    public User(Long id, String email, String userName, String descricaoUsuario, String cpf, String nome, Date nascimento, String senha, String urlFoto, Date deletedAt, Date createdAt, String firebaseId) {
+        this.id = id;
+        this.email = email;
+        this.userName = userName;
+        this.descricaoUsuario = descricaoUsuario;
+        this.cpf = cpf;
+        this.nome = nome;
+        this.nascimento = nascimento;
+        this.senha = senha;
+        this.urlFoto = urlFoto;
+        this.deletedAt = deletedAt;
+        this.createdAt = createdAt;
+        this.firebaseId = firebaseId;
+    }
+
     public User() {
     }
 
@@ -90,9 +105,11 @@ public class User {
         this.urlFoto = updatedUserInformation.getUrlFoto();
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
+
+    public void setId(Long id){this.id = id;}
 
     public String getEmail() {
         return email;
