@@ -56,4 +56,21 @@ public class MascoteController {
         }
         return new ResponseEntity<>(mascote, HttpStatus.OK);
     }
+
+    @GetMapping("/usermascote/{userid}")
+    @Operation(summary = "Procurar mascote pelo id do seu usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Mascote retornada com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Mascote.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Mascote não encontrada", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> getByUserId(@PathVariable("userid") Long id) {
+        Mascote mascote = mascoteService.getById(id);
+        if (mascote == null) {
+            return new ResponseEntity<>("O mascote não foi encontrado", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(mascote, HttpStatus.OK);
+    }
 }
