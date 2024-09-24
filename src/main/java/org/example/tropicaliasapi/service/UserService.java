@@ -6,7 +6,8 @@ import org.example.tropicaliasapi.model.User;
 import org.example.tropicaliasapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,7 +29,6 @@ public class UserService {
                 user.getPassword(),
                 user.getFirebaseId()
         );
-        newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()).getTime());
         return userRepository.save(newUser);
     }
 
@@ -94,7 +94,7 @@ public class UserService {
             return null;
         }
 
-        user.setDeletedAt(new Timestamp(System.currentTimeMillis()).getTime());
+        user.setDeletedAt(Date.valueOf(LocalDate.now()));
         return userRepository.save(user);
     }
 

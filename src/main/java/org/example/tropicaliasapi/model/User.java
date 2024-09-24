@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.example.tropicaliasapi.domain.UserUpdate;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -47,17 +48,17 @@ public class User {
     @Schema(description = "Senha do usuário", example = "HLsdasdBDibadhAsaIUidabspaADdiub")
     private String senha;
 
-    @Column(name = "text_foto")
+    @Column(name = "var_foto")
     @Schema(description = "URL da foto do usuário", example = "https://url.com/foto.jpg")
     private String urlFoto;
 
-    @Column(name = "deleted_at")
+    @Column(name = "deletedat")
     @Schema(description = "Timestamp da deleção do usuário", example = "1622567890")
-    private Long deletedAt;
+    private Date deletedAt;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "createdat", nullable = false)
     @Schema(description = "Timestamp da criação do usuário", example = "1612567890")
-    private Long createdAt;
+    private Date createdAt;
 
     @Column(name = "var_id_firebase", nullable = false, unique = true)
     @Schema(description = "ID gerado pelo Firebase para o usuário", example = "tKBGsn4xIRMWWzyT2Okim6YuoZ23")
@@ -70,7 +71,7 @@ public class User {
         this.email = email;
         this.senha = senha;
         this.firebaseId = firebaseId;
-        this.createdAt = System.currentTimeMillis();  // Define o timestamp de criação automaticamente
+        this.createdAt = Date.valueOf(LocalDate.now());  // Define o timestamp de criação automaticamente
     }
 
     public User() {
@@ -125,19 +126,19 @@ public class User {
         return urlFoto;
     }
 
-    public Long getDeletedAt() {
+    public Date getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Long deletedAt) {
+    public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
     }
 
-    public Long getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Long createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
