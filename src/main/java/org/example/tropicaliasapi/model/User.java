@@ -26,7 +26,7 @@ public class User {
 
     @Column(name = "var_user_name", nullable = false, unique = true)
     @Schema(description = "Nome do usuário", example = "usuario1")
-    private String userName;
+    private String username;
 
     @Column(name = "var_descricao_usuario")
     @Schema(description = "Biografia do usuário", example = "Lorem ipsum dolor sit amet")
@@ -66,18 +66,18 @@ public class User {
 
     // Construtores /////////////////////////////////////////////////////////////
 
-    public User(String userName, String email, String senha, String firebaseId) {
-        this.userName = userName;
+    public User(String username, String email, String senha, String firebaseId) {
+        this.username = username;
         this.email = email;
         this.senha = senha;
         this.firebaseId = firebaseId;
         this.createdAt = Date.valueOf(LocalDate.now());  // Define o timestamp de criação automaticamente
     }
 
-    public User(Long id, String email, String userName, String descricaoUsuario, String cpf, String nome, Date nascimento, String senha, String urlFoto, Date deletedAt, Date createdAt, String firebaseId) {
+    public User(Long id, String email, String username, String descricaoUsuario, String cpf, String nome, Date nascimento, String senha, String urlFoto, Date deletedAt, Date createdAt, String firebaseId) {
         this.id = id;
         this.email = email;
-        this.userName = userName;
+        this.username = username;
         this.descricaoUsuario = descricaoUsuario;
         this.cpf = cpf;
         this.nome = nome;
@@ -96,7 +96,7 @@ public class User {
 
     public void updateUser(UserUpdate updatedUserInformation) {
         this.email = updatedUserInformation.getEmail();
-        this.userName = updatedUserInformation.getUserName();
+        this.username = updatedUserInformation.getUserName();
         this.descricaoUsuario = updatedUserInformation.getDescricaoUsuario();
         this.cpf = updatedUserInformation.getCpf();
         this.nome = updatedUserInformation.getNome();
@@ -115,8 +115,8 @@ public class User {
         return email;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public String getDescricaoUsuario() {
@@ -176,7 +176,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", userName='" + userName + '\'' +
+                ", userName='" + username + '\'' +
                 ", descricaoUsuario='" + descricaoUsuario + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", nome='" + nome + '\'' +
