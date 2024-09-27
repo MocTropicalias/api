@@ -81,7 +81,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
-    public ResponseEntity<?> getByID(@PathVariable("id") int id) {
+    public ResponseEntity<?> getByID(@PathVariable("id") Long id) {
         User user = userService.getByID(id);
         if (user == null) {
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);

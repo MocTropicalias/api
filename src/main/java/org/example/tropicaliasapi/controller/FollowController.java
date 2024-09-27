@@ -13,10 +13,7 @@ import org.example.tropicaliasapi.service.EstadoService;
 import org.example.tropicaliasapi.service.FollowService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Follow")
 @RestController
@@ -72,5 +69,24 @@ public class FollowController {
             return new ResponseEntity<>("O usuário não existe!", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(quantidade, HttpStatus.OK);
+    }
+
+    @PostMapping("/{idSeguido}/{idSeguidor}")
+    @Operation(summary = "Inserir Follow (Ação de seguir usuário)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Relação de seguir criada com sucesso!",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Follow.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Um dos usuários não existe no banco!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> followed(@PathVariable("idSeguido") Long idSeguido, @PathVariable("idSeguidor") Long idSeguidor){
+        Follow follow = followService.followed(idSeguido, idSeguidor);
+
+        if(follow == null){
+            return new ResponseEntity<>("Um dos usuários não existe!", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(follow, HttpStatus.OK);
     }
 }

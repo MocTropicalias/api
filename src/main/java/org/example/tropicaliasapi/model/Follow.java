@@ -17,11 +17,11 @@ public class Follow {
 
     @Column(name = "fk_int_id_seguidor", nullable = false)
     @Schema(description = "ID do usuário que segue", example = "101")
-    private Integer idSeguidor;
+    private Long idSeguidor;
 
     @Column(name = "fk_int_id_seguido", nullable = false)
     @Schema(description = "ID do usuário que é seguido", example = "202")
-    private Integer idSeguido;
+    private Long idSeguido;
 
     @Column(name = "createdAt", nullable = true)
     @Schema(description = "Data em que o follow foi criado", example = "2024-01-01")
@@ -33,7 +33,7 @@ public class Follow {
     @Temporal(TemporalType.DATE)
     private Date deletedAt;
 
-    public Follow(Integer idSeguidor, Integer idSeguido) {
+    public Follow(Long idSeguidor, Long idSeguido) {
         this.idSeguidor = idSeguidor;
         this.idSeguido = idSeguido;
     }
@@ -49,19 +49,19 @@ public class Follow {
         this.id = id;
     }
 
-    public Integer getIdSeguidor() {
+    public Long getIdSeguidor() {
         return idSeguidor;
     }
 
-    public void setIdSeguidor(Integer idSeguidor) {
+    public void setIdSeguidor(Long idSeguidor) {
         this.idSeguidor = idSeguidor;
     }
 
-    public Integer getIdSeguido() {
+    public Long getIdSeguido() {
         return idSeguido;
     }
 
-    public void setIdSeguido(Integer idSeguido) {
+    public void setIdSeguido(Long idSeguido) {
         this.idSeguido = idSeguido;
     }
 
