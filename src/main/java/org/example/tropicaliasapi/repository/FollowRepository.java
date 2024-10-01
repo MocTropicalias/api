@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Long> {
     int countFollowsByIdSeguido(Long id);
+
+    boolean deleteFollowByIdSeguidoAndIdSeguidor(Long idSeguido, Long idSeguidor);
 }

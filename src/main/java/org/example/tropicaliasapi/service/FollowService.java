@@ -46,4 +46,8 @@ public class FollowService {
 
         return followRepository.save(new Follow(idSeguidor, idSeguido));
     }
+
+    public boolean unfollowed(Long idSeguido, Long idSeguidor){
+        return followRepository.deleteFollowByIdSeguidoAndIdSeguidor(idSeguido, idSeguidor);
+    }
 }

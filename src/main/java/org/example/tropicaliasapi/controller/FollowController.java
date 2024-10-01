@@ -89,4 +89,20 @@ public class FollowController {
 
         return new ResponseEntity<>(follow, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{idSeguido}/{idSeguidor}")
+    @Operation(summary = "Remover Follow (Ação de deixar de seguir usuário)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Relação de seguir cancelada com sucesso!",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Follow.class))
+            ),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> unfollowed(@PathVariable("idSeguido") Long idSeguido, @PathVariable("idSeguidor") Long idSeguidor){
+        if(followService.unfollowed(idSeguido, idSeguidor)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
