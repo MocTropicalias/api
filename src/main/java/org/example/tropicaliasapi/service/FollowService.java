@@ -36,6 +36,14 @@ public class FollowService {
         return followRepository.countFollowsByIdSeguido(id);
     }
 
+    public int countFollowed(Long id){
+        if (userService.getByID(id) == null){
+            return -1;
+        }
+
+        return followRepository.countFollowsByIdSeguidor(id);
+    }
+
     public Follow followed(Long idSeguido, Long idSeguidor){
         User seguido = userService.getByID(idSeguido);
         User seguidor = userService.getByID(idSeguidor);
