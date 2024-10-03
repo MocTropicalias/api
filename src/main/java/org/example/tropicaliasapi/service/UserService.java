@@ -4,6 +4,7 @@ import org.example.tropicaliasapi.domain.UserCreate;
 import org.example.tropicaliasapi.domain.UserReturn;
 import org.example.tropicaliasapi.domain.UserUpdate;
 import org.example.tropicaliasapi.model.User;
+import org.example.tropicaliasapi.repository.FollowRepository;
 import org.example.tropicaliasapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +17,11 @@ import java.util.Optional;
 public class UserService {
 
     UserRepository userRepository;
-    FollowService followService;
+    FollowRepository followRepository;
 
-    public UserService(UserRepository userRepository, FollowService followService) {
+    public UserService(UserRepository userRepository, FollowRepository followRepository) {
         this.userRepository = userRepository;
-        this.followService = followService;
+        this.followRepository = followRepository;
     }
 
 
@@ -63,8 +64,8 @@ public class UserService {
                 user.get().getNome(),
                 user.get().getUrlFoto(),
                 user.get().getFirebaseId(),
-                followService.countFollowers(id),
-                followService.countFollowed(id));
+                followRepository.countFollowsByIdSeguido(id),
+                followRepository.countFollowsByIdSeguidor(id));
 
         return userReturn;
     }

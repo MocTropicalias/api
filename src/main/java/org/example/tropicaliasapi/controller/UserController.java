@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.tropicaliasapi.domain.UserCreate;
+import org.example.tropicaliasapi.domain.UserReturn;
 import org.example.tropicaliasapi.domain.UserUpdate;
 import org.example.tropicaliasapi.model.User;
 import org.example.tropicaliasapi.service.UserService;
@@ -105,6 +106,26 @@ public class UserController {
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    //UserProfile//
+    @GetMapping("/profile/{id}")
+    @Operation(summary = "Procurar usuário por id, para ser carregado no perfil do usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> getProfileByID(@PathVariable("id") Long id){
+        UserReturn user = userService.getUserByID(id);
+
+        if (user == null) {
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+        
     }
 
     //Update//////////////////////////////////////////////////////////////////////////////////
