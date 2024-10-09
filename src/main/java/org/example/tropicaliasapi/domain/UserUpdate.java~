@@ -38,7 +38,7 @@ public class UserUpdate {
     private final String senha;
 
     @Column(name = "text_foto")
-    @Schema(description = "URL da foto do usuário", example = "https://uploads.jovemnerd.com.br/wp-content/uploads/2023/03/vitrine_shrek_e_mais_animacoes_dreamworks_deixarao_netflix_nerdbunker__2z154j.jpg?ims=1210x544/filters:quality(75)")
+    @Schema(description = "URL da foto do usuário", example = "https://url.com")
     private final String urlFoto;
 
     //Constructors//////////////////////////////////////////////////////////////
