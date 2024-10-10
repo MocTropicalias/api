@@ -21,17 +21,9 @@ public class UserUpdate {
     @Schema(description = "Biografia do usuário", example = "Lorem ipsum dolor sit amet")
     private final String descricaoUsuario;
 
-    @Column(name = "var_cpf")
-    @Schema(description = "CPF", example = "12345678901")
-    private final String cpf;
-
     @Column(name = "var_nome")
     @Schema(description = "Nome de exebição", example = "Lagostin Branco")
     private final String nome;
-
-    @Column(name = "dt_nascimento")
-    @Schema(description = "Data de Nascimento", example = "12/12/2022")
-    private final Date nascimento;
 
     @Column(name = "var_senha")
     @Schema(description = "Senha", example = "HLsdasdBDibadhAsaIUidabspaADdiub")
@@ -43,13 +35,11 @@ public class UserUpdate {
 
     //Constructors//////////////////////////////////////////////////////////////
 
-    public UserUpdate(String email, String userName, String descricaoUsuario, String cpf, String nome, Date nascimento, String senha, String urlFoto) {
+    public UserUpdate(String email, String userName, String descricaoUsuario, String nome, String senha, String urlFoto) {
         this.email = email;
         this.userName = userName;
         this.descricaoUsuario = descricaoUsuario;
-        this.cpf = cpf;
         this.nome = nome;
-        this.nascimento = nascimento;
         this.senha = senha;
         this.urlFoto = urlFoto;
     }
@@ -68,16 +58,8 @@ public class UserUpdate {
         return descricaoUsuario;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
     public String getNome() {
         return nome;
-    }
-
-    public Date getNascimento() {
-        return nascimento;
     }
 
     public String getSenha() {

@@ -98,7 +98,9 @@ public class User {
         this.email = updatedUserInformation.getEmail();
         this.username = updatedUserInformation.getUserName();
         this.descricaoUsuario = updatedUserInformation.getDescricaoUsuario();
+        this.cpf = updatedUserInformation.getCpf();
         this.nome = updatedUserInformation.getNome();
+        this.nascimento = updatedUserInformation.getNascimento();
         this.senha = updatedUserInformation.getSenha();
         this.urlFoto = updatedUserInformation.getUrlFoto();
     }
