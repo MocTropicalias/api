@@ -72,37 +72,30 @@ public class FollowController {
     }
 
     @PostMapping("/{idSeguido}/{idSeguidor}")
-    @Operation(summary = "Inserir Follow (Ação de seguir usuário)")
+    @Operation(summary = "Ação de seguir ou deixar de seguir um usuário")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Relação de seguir criada com sucesso!",
+            @ApiResponse(responseCode = "200", description = "Ação realizada com sucesso!",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Follow.class))
             ),
             @ApiResponse(responseCode = "404", description = "Um dos usuários não existe no banco!", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public ResponseEntity<?> followed(@PathVariable("idSeguido") Long idSeguido, @PathVariable("idSeguidor") Long idSeguidor){
-        Follow follow = followService.followed(idSeguido, idSeguidor);
+        int resposta = followService.followed(idSeguido, idSeguidor);
 
-        if(follow == null){
-            return new ResponseEntity<>("Um dos usuários não existe!", HttpStatus.NOT_FOUND);
+        if(resposta == -2){
+            return new ResponseEntity<>("Usuário que segue não existe!", HttpStatus.NOT_FOUND);
+        }
+        else if (resposta == -1) {
+            return new ResponseEntity<>("Usuário seguido não existe!", HttpStatus.NOT_FOUND);
+        }
+        else if (resposta == 0) {
+            return new ResponseEntity<>("Usuário seguido com sucesso", HttpStatus.OK);
+        }
+        else if (resposta == 1){
+            return new ResponseEntity<>("Usuário deixou de sguir com sucesso!", HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(follow, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{idSeguido}/{idSeguidor}")
-    @Operation(summary = "Remover Follow (Ação de deixar de seguir usuário)")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Relação de seguir cancelada com sucesso!",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Follow.class))
-            ),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
-    })
-    public ResponseEntity<?> unfollowed(@PathVariable("idSeguido") Long idSeguido, @PathVariable("idSeguidor") Long idSeguidor){
-        if(followService.unfollowed(idSeguido, idSeguidor)){
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Erro interno na api", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

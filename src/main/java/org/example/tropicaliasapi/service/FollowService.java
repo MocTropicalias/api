@@ -44,18 +44,23 @@ public class FollowService {
         return followRepository.countFollowsByIdSeguidor(id);
     }
 
-    public Follow followed(Long idSeguido, Long idSeguidor){
+    public int followed(Long idSeguido, Long idSeguidor){
         User seguido = userService.getByID(idSeguido);
         User seguidor = userService.getByID(idSeguidor);
 
-        if (seguido == null || seguidor == null){
-            return null;
+        if (seguido == null){
+            return -1;
+        }
+        else if (seguidor == null) {
+            return -2;
+        }
+        else if (followRepository.getFollowByIdSeguidoAndIdSeguidor(idSeguidor, idSeguido).isPresent()) {
+            followRepository.deleteFollowByIdSeguidoAndIdSeguidor(idSeguido, idSeguidor);
+            return 1;
         }
 
-        return followRepository.save(new Follow(idSeguidor, idSeguido));
+        followRepository.save(new Follow(idSeguidor, idSeguido));
+        return 0;
     }
 
-    public boolean unfollowed(Long idSeguido, Long idSeguidor){
-        return followRepository.deleteFollowByIdSeguidoAndIdSeguidor(idSeguido, idSeguidor);
-    }
 }
