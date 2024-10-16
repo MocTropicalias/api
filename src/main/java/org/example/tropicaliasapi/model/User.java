@@ -95,12 +95,24 @@ public class User {
     // Métodos de Get/Set /////////////////////////////////////////////////////////////
 
     public void updateUser(UserUpdate updatedUserInformation) {
-        this.email = updatedUserInformation.getEmail();
-        this.username = updatedUserInformation.getUserName();
-        this.descricaoUsuario = updatedUserInformation.getDescricaoUsuario();
-        this.nome = updatedUserInformation.getNome();
-        this.senha = updatedUserInformation.getSenha();
-        this.urlFoto = updatedUserInformation.getUrlFoto();
+        if (updatedUserInformation.getEmail() != null) {
+            this.email = updatedUserInformation.getEmail();
+        }
+        if (updatedUserInformation.getUsername() != null) {
+            this.username = updatedUserInformation.getUsername();
+        }
+        if (updatedUserInformation.getDescricaoUsuario() != null) {
+            this.descricaoUsuario = updatedUserInformation.getDescricaoUsuario();
+        }
+        if (updatedUserInformation.getNome() != null) {
+            this.nome = updatedUserInformation.getNome();
+        }
+        if (updatedUserInformation.getSenha() != null) {
+            this.senha = updatedUserInformation.getSenha();
+        }
+        if (updatedUserInformation.getUrlFoto() != null) {
+            this.urlFoto = updatedUserInformation.getUrlFoto();
+        }
     }
 
     public Long getId() {

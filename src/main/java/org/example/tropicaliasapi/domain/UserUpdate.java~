@@ -37,7 +37,7 @@ public class UserUpdate {
 
     public UserUpdate(String email, String userName, String descricaoUsuario, String nome, String senha, String urlFoto) {
         this.email = email;
-        this.username = userName;
+        this.userName = userName;
         this.descricaoUsuario = descricaoUsuario;
         this.nome = nome;
         this.senha = senha;
@@ -50,8 +50,8 @@ public class UserUpdate {
         return email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     public String getDescricaoUsuario() {
