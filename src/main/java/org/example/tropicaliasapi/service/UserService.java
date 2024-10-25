@@ -79,8 +79,25 @@ public class UserService {
         return userReturn;
     }
 
-    public User getByFirebaseId(String firebaseId){
-        return userRepository.findUserByFirebaseId(firebaseId).orElse(null);
+    public UserReturn getByFirebaseId(String firebaseId){
+
+        Optional<User> user = userRepository.findUserByFirebaseId(firebaseId);
+
+        if(user.isEmpty()){
+            return null;
+        }
+
+        UserReturn userReturn = new UserReturn(
+                user.get().getId(),
+                user.get().getUsername(),
+                user.get().getDescricaoUsuario(),
+                user.get().getNome(),
+                user.get().getUrlFoto(),
+                user.get().getFirebaseId(),
+                followRepository.countFollowsByIdSeguido(user.get().getId()),
+                followRepository.countFollowsByIdSeguidor(user.get().getId()));
+
+        return userReturn;
     }
 
     //Update//////////////////////////////////////////////////////////////////////////////////

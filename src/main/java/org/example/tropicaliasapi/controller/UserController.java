@@ -101,7 +101,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public ResponseEntity<?> getByID(@PathVariable("id") String firebaseId) {
-        User user = userService.getByFirebaseId(firebaseId);
+        UserReturn user = userService.getByFirebaseId(firebaseId);
         if (user == null) {
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
