@@ -52,6 +52,9 @@ public class User {
     @Schema(description = "URL da foto do usuário", example = "https://url.com/foto.jpg")
     private String urlFoto;
 
+    @Schema(description = "Quantidade de seguidores do usuário", example = "269")
+    private int qtSeguidores;
+
     @Column(name = "deletedat")
     @Schema(description = "Timestamp da deleção do usuário", example = "1622567890")
     private Date deletedAt;
@@ -181,6 +184,14 @@ public class User {
         this.urlFoto = urlFoto;
     }
 
+    public int getQtSeguidores() {
+        return qtSeguidores;
+    }
+
+    public void setQtSeguidores(int qtSeguidores) {
+        this.qtSeguidores = qtSeguidores;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -193,6 +204,7 @@ public class User {
                 ", nascimento=" + nascimento +
                 ", senha='" + senha + '\'' +
                 ", urlFoto='" + urlFoto + '\'' +
+                ", qtSeguidores=" + qtSeguidores +
                 ", deletedAt=" + deletedAt +
                 ", createdAt=" + createdAt +
                 ", firebaseId='" + firebaseId + '\'' +

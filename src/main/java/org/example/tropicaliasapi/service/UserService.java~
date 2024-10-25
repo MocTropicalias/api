@@ -6,8 +6,6 @@ import org.example.tropicaliasapi.domain.UserUpdate;
 import org.example.tropicaliasapi.model.User;
 import org.example.tropicaliasapi.repository.FollowRepository;
 import org.example.tropicaliasapi.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -20,12 +18,10 @@ public class UserService {
 
     UserRepository userRepository;
     FollowRepository followRepository;
-    PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, FollowRepository followRepository) {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
 

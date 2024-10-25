@@ -108,6 +108,26 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    //UserProfile//
+    @GetMapping("/profile/{id}")
+    @Operation(summary = "Procurar usuário por id, para ser carregado no perfil do usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> getProfileByID(@PathVariable("id") Long id){
+        UserReturn user = userService.getUserByID(id);
+
+        if (user == null) {
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+        
+    }
+
     //Update//////////////////////////////////////////////////////////////////////////////////
 
     @PutMapping("/{id}")
