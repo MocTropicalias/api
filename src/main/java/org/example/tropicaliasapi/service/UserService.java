@@ -20,11 +20,13 @@ public class UserService {
 
     UserRepository userRepository;
     FollowRepository followRepository;
+    MascoteService mascoteService;
     PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, FollowRepository followRepository) {
+    public UserService(UserRepository userRepository, FollowRepository followRepository, MascoteService mascoteService) {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
+        this.mascoteService = mascoteService;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -41,7 +43,10 @@ public class UserService {
                 encryptedPassword,  // Usa a senha criptografada
                 user.getFirebaseId()
         );
-        return userRepository.save(newUser);
+
+        User createdUser = userRepository.save(newUser);
+
+        return createdUser;
     }
 
 

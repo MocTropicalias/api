@@ -6,6 +6,7 @@ import org.example.tropicaliasapi.repository.EstadoRepository;
 import org.example.tropicaliasapi.repository.MascoteRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,4 +26,13 @@ public class MascoteService {
     }
 
     public Mascote getByUserId(Long id){return mascoteRepository.getMascoteByUsuarioId(id).orElse(null);}
+
+    public Mascote save(Mascote mascote){
+        return mascoteRepository.save(mascote);
+    }
+
+    public Mascote criarMascoteCadastro(Long userId){
+        Mascote mascote = new Mascote("Araci", userId, 1);
+        return save(mascote);
+    }
 }

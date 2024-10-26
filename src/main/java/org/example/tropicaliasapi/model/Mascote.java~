@@ -15,6 +15,14 @@ public class Mascote {
     @Schema(description = "O ID único do mascote", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
+//    @Column(name = "created_at")
+//    @Schema(description = "A data de criação do registro", example = "2024-09-01")
+//    private Date createdAt;
+
+    @Column(name = "deletedAt")
+    @Schema(description = "A data de exclusão do registro", example = "2024-09-02")
+    private Date deletedAt;
+
     @Column(name = "var_nome")
     @Schema(description = "O nome do mascote", example = "Fido")
     private String nome;
@@ -31,10 +39,20 @@ public class Mascote {
     public Mascote() {
     }
 
+    public Mascote(Date deletedAt, String nome, Long usuarioId, Integer corAraciId) {
+        //this.createdAt = createdAt;
+        this.deletedAt = deletedAt;
+        this.nome = nome;
+        this.usuarioId = usuarioId;
+        this.corAraciId = corAraciId;
+    }
+
     public Mascote(String nome, Long usuarioId, Integer corAraciId) {
         this.nome = nome;
         this.usuarioId = usuarioId;
         this.corAraciId = corAraciId;
+        //this.createdAt = new Date();
+        this.deletedAt = null;
     }
 
     // Getters e Setters
@@ -44,6 +62,22 @@ public class Mascote {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+//    public Date getCreatedAt() {
+//        return createdAt;
+//    }
+//
+//    public void setCreatedAt(Date createdAt) {
+//        this.createdAt = createdAt;
+//    }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     public String getNome() {
@@ -75,6 +109,8 @@ public class Mascote {
     public String toString() {
         return "Mascote{" +
                 "id=" + id +
+                //", createdAt=" + createdAt +
+                ", deletedAt=" + deletedAt +
                 ", nome='" + nome + '\'' +
                 ", usuarioId=" + usuarioId +
                 ", corAraciId=" + corAraciId +
