@@ -1,6 +1,5 @@
 package org.example.tropicaliasapi.service;
 
-import org.example.tropicaliasapi.domain.UserReturn;
 import org.example.tropicaliasapi.model.Estado;
 import org.example.tropicaliasapi.model.Follow;
 import org.example.tropicaliasapi.model.User;
@@ -46,8 +45,8 @@ public class FollowService {
     }
 
     public int followed(Long idSeguido, Long idSeguidor){
-        UserReturn seguido = userService.getByID(idSeguido);
-        UserReturn seguidor = userService.getByID(idSeguidor);
+        User seguido = userService.getByID(idSeguido);
+        User seguidor = userService.getByID(idSeguidor);
 
         if (seguido == null){
             return -1;

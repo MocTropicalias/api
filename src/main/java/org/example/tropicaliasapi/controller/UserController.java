@@ -83,7 +83,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public ResponseEntity<?> getByID(@PathVariable("id") Long id) {
-        User user = userService.getByID(id);
+        UserReturn user = userService.getByID(id);
         if (user == null) {
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }

@@ -53,10 +53,25 @@ public class UserService {
     }
 
 
-    public User getByID(Long id) {
+    public UserReturn getByID(Long id) {
         User user = userRepository.findById(id).orElse(null);
-        user.setQtSeguidores(followRepository.countFollowsByIdSeguido(id));
-        return user;
+
+        if(user == null){
+            return null;
+        }
+
+        UserReturn userReturn = new UserReturn(
+                user.getId(),
+                user.getUsername(),
+                user.getDescricaoUsuario(),
+                user.getNome(),
+                user.getUrlFoto(),
+                user.getFirebaseId(),
+                followRepository.countFollowsByIdSeguido(id),
+                followRepository.countFollowsByIdSeguidor(id)
+        );
+
+        return userReturn;
     }
 
     public UserReturn getUserByID(Long id){
@@ -122,11 +137,6 @@ public class UserService {
         }
 
         user.updateUser(updatedUserInformation);
-        user.setQtSeguidores(
-                followRepository.countFollowsByIdSeguido(
-                        Long.parseLong(String.valueOf(id)
-                        )
-                ));
         return userRepository.save(user);
     }
 
