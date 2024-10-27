@@ -114,7 +114,6 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
             ),
-            @ApiResponse(responseCode = "401", description = "Informações inválidas", content = @Content),
             @ApiResponse(responseCode = "403", description = "Usuário não autorizado", content = @Content),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)

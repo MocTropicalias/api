@@ -6,6 +6,7 @@ import org.example.tropicaliasapi.domain.UserUpdate;
 import org.example.tropicaliasapi.model.User;
 import org.example.tropicaliasapi.repository.FollowRepository;
 import org.example.tropicaliasapi.repository.UserRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -118,6 +120,24 @@ public class UserService {
                 followRepository.countFollowsByIdSeguidor(user.get().getId()));
 
         return userReturn;
+    }
+
+    public ResponseEntity<?> isUserAuthorized(String email, String senha){
+        User user = userRepository.findByEmail(email);
+
+        if(user == null || user.getDeletedAt() !=  null){
+            return ResponseEntity.notFound().build();
+        }
+        else if (!passwordEncoder.matches(senha, user.getSenha())){
+            return ResponseEntity.status(401).body("Senha inválida");
+        }
+        else if(user.getUserRole().toLowerCase() != "admin"){
+            return ResponseEntity.status(403).body("Usuário não autorizado");
+        }
+        else{
+            return ResponseEntity.ok().build();
+        }
+
     }
 
     //Update//////////////////////////////////////////////////////////////////////////////////

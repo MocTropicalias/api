@@ -64,6 +64,10 @@ public class User {
     @Schema(description = "ID gerado pelo Firebase para o usuário", example = "tKBGsn4xIRMWWzyT2Okim6YuoZ23")
     private String firebaseId;
 
+    @Column(name = "var_role")
+    @Schema(description = "Permissão do usuário", example = "ADMIN")
+    private String userRole;
+
     // Construtores /////////////////////////////////////////////////////////////
 
     public User(String username, String email, String senha, String firebaseId) {
@@ -181,6 +185,14 @@ public class User {
         this.urlFoto = urlFoto;
     }
 
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -196,6 +208,7 @@ public class User {
                 ", deletedAt=" + deletedAt +
                 ", createdAt=" + createdAt +
                 ", firebaseId='" + firebaseId + '\'' +
+                ", userRole='" + userRole + '\'' +
                 '}';
     }
 }
