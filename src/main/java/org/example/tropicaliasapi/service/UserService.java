@@ -128,10 +128,10 @@ public class UserService {
         if(user == null || user.getDeletedAt() !=  null){
             return ResponseEntity.notFound().build();
         }
-        else if (user.getUserRole() == null || !passwordEncoder.matches(senha, user.getSenha())){
+        else if (!passwordEncoder.matches(senha, user.getSenha())){
             return ResponseEntity.status(401).body("Senha inválida");
         }
-        else if(!user.getUserRole().toLowerCase().equals("admin")){
+        else if(user.getUserRole() == null || !user.getUserRole().toLowerCase().equals("admin")){
             return ResponseEntity.status(403).body("Usuário não autorizado");
         }
         else{
