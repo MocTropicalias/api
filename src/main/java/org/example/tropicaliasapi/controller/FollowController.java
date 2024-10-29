@@ -71,6 +71,19 @@ public class FollowController {
         return new ResponseEntity<>(quantidade, HttpStatus.OK);
     }
 
+    @GetMapping("/{idSeguido}/{idSeguidor}")
+    @Operation(summary = "Verifica se um usuário segue outro")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Verificação realizada com sucesso!",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Boolean.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Um dos usuários não existe no banco!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> isFollowing(@PathVariable("idSeguido") Long idSeguido, @PathVariable("idSeguidor") Long idSeguidor){
+        return followService.isFollowing(idSeguido, idSeguidor);
+    }
+
     @PostMapping("/{idSeguido}/{idSeguidor}")
     @Operation(summary = "Ação de seguir ou deixar de seguir um usuário")
     @ApiResponses(value = {
@@ -90,10 +103,10 @@ public class FollowController {
             return new ResponseEntity<>("Usuário seguido não existe!", HttpStatus.NOT_FOUND);
         }
         else if (resposta == 0) {
-            return new ResponseEntity<>("Usuário seguido com sucesso", HttpStatus.OK);
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }
         else if (resposta == 1){
-            return new ResponseEntity<>("Usuário deixou de sguir com sucesso!", HttpStatus.OK);
+            return new ResponseEntity<>(false, HttpStatus.OK);
         }
 
         return new ResponseEntity<>("Erro interno na api", HttpStatus.INTERNAL_SERVER_ERROR);

@@ -111,7 +111,7 @@ public class UserController {
     @GetMapping("/authorization/{email}/{senha}")
     @Operation(summary = "Verificar se o usuário é admin pelo email")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso",
+            @ApiResponse(responseCode = "200", description = "Usuário autorizado",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
             ),
             @ApiResponse(responseCode = "401", description = "Informações inválidas", content = @Content),

@@ -6,6 +6,8 @@ import org.example.tropicaliasapi.model.Follow;
 import org.example.tropicaliasapi.model.User;
 import org.example.tropicaliasapi.repository.EstadoRepository;
 import org.example.tropicaliasapi.repository.FollowRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,6 +64,24 @@ public class FollowService {
 
         followRepository.save(new Follow(idSeguidor, idSeguido));
         return 0;
+    }
+
+    public ResponseEntity<?> isFollowing(Long idSeguido, Long idSeguidor) {
+        UserReturn seguido = userService.getByID(idSeguido);
+        UserReturn seguidor = userService.getByID(idSeguidor);
+
+        if (seguido == null){
+            return new ResponseEntity<>("Usuário seguido não encontrado!", HttpStatus.NOT_FOUND);
+        }
+        else if (seguidor == null) {
+            return new ResponseEntity<>("Usuário seguidor não encontrado!", HttpStatus.NOT_FOUND);
+        }
+
+        if(followRepository.getFollowByIdSeguidoAndIdSeguidor(idSeguido, idSeguidor).isPresent()) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.ok(false);
+        }
     }
 
 }
