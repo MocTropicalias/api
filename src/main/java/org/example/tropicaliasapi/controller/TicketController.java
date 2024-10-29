@@ -68,4 +68,16 @@ public class TicketController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTicket);
     }
+
+    @PatchMapping("/addTickets")
+    @Operation(summary = "Adicionar tickets ao saldo de um cliente em um evento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tickets adicionados ao saldo do cliente",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Ticket.class))),
+            @ApiResponse(responseCode = "404", description = "Ticket não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> addTickets(@RequestParam Long id, @RequestParam int tickets) {
+        return ticketService.addTickets(id, tickets);
+    }
 }

@@ -4,6 +4,8 @@ import org.example.tropicaliasapi.model.StatusVenda;
 import org.example.tropicaliasapi.model.Ticket;
 import org.example.tropicaliasapi.repository.StatusVendaRepository;
 import org.example.tropicaliasapi.repository.TicketRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,4 +45,20 @@ public class TicketService {
         Ticket ticket = new Ticket(0, userId, eventoId);
         return ticketRepository.save(ticket);
     }
+
+    public ResponseEntity<?> addTickets(Long id, int quantity){
+        Ticket ticket = ticketRepository.findById(id).orElse(null);
+
+        if (ticket == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O ticket não foi encontrado");
+        }
+
+        if(quantity < 1){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Quantidade inválida");
+        }
+
+        ticket.setQuantidade(ticket.getQuantidade() + quantity);
+        return ResponseEntity.ok(ticketRepository.save(ticket));
+    }
+
 }
