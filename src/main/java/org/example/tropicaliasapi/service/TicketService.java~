@@ -12,13 +12,8 @@ import java.util.List;
 public class TicketService {
     TicketRepository ticketRepository;
 
-    UserService userService;
-    EventoService eventoService;
-
-    public TicketService(TicketRepository ticketRepository, UserService userService, EventoService eventoService) {
+    public TicketService(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
-        this.userService = userService;
-        this.eventoService = eventoService;
     }
 
     public List<Ticket> getAll(){
@@ -30,16 +25,6 @@ public class TicketService {
     }
 
     public Ticket cadastrarUserEvento(Long userId, Long eventoId){
-
-
-        if (userService.getUserByID(userId) == null) {
-            return null;
-        }
-
-        if (eventoService.getById(eventoId) == null) {
-            return null;
-        }
-
         Ticket ticket = new Ticket(0, userId, eventoId);
         return ticketRepository.save(ticket);
     }

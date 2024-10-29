@@ -31,13 +31,13 @@ public class Ticket {
 
     @Column(name = "fk_int_id_usuario", nullable = false)
     @Schema(description = "ID do usuário que comprou o ticket", example = "10")
-    private Integer idUsuario;
+    private Long idUsuario;
 
     @Column(name = "fk_int_id_evento", nullable = false)
     @Schema(description = "ID do evento relacionado ao ticket", example = "5")
-    private Integer idEvento;
+    private Long idEvento;
 
-    public Ticket(Integer quantidade, Integer idUsuario, Integer idEvento) {
+    public Ticket(Integer quantidade, Long idUsuario, Long idEvento) {
         this.quantidade = quantidade;
         this.idUsuario = idUsuario;
         this.idEvento = idEvento;
@@ -78,19 +78,19 @@ public class Ticket {
         this.deletedAt = deletedAt;
     }
 
-    public Integer getIdUsuario() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(Integer idUsuario) {
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public Integer getIdEvento() {
+    public Long getIdEvento() {
         return idEvento;
     }
 
-    public void setIdEvento(Integer idEvento) {
+    public void setIdEvento(Long idEvento) {
         this.idEvento = idEvento;
     }
 
