@@ -3,6 +3,7 @@ package org.example.tropicaliasapi.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.example.tropicaliasapi.domain.UserUpdate;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -76,6 +77,7 @@ public class User {
         this.senha = senha;
         this.firebaseId = firebaseId;
         this.createdAt = Date.valueOf(LocalDate.now());  // Define o timestamp de criação automaticamente
+        this.userRole = "USER";
     }
 
     public User(Long id, String email, String username, String descricaoUsuario, String cpf, String nome, Date nascimento, String senha, String urlFoto, Date deletedAt, Date createdAt, String firebaseId) {
@@ -91,6 +93,7 @@ public class User {
         this.deletedAt = deletedAt;
         this.createdAt = createdAt;
         this.firebaseId = firebaseId;
+        this.userRole = "USER";
     }
 
     public User() {
