@@ -57,7 +57,7 @@ public class FollowService {
         else if (seguidor == null) {
             return -2;
         }
-        else if (followRepository.getFollowByIdSeguidoAndIdSeguidor(idSeguido, idSeguidor).isPresent()) {
+        else if (followRepository.getFollowByIdSeguidoAndIdSeguidor(idSeguidor, idSeguido).isPresent()) {
             followRepository.deleteFollowByIdSeguidoAndIdSeguidor(idSeguido, idSeguidor);
             return 1;
         }
