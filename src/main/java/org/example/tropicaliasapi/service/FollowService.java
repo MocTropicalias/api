@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +87,24 @@ public class FollowService {
         } else {
             return ResponseEntity.ok(Map.of("following", false));
         }
+    }
+
+    public ResponseEntity<?> getAllFollowing(Long idSeguidor) {
+        UserReturn usuario = userService.getByID(idSeguidor);
+        if (usuario == null) {
+            return new ResponseEntity<>("Usuário não encontrado!", HttpStatus.NOT_FOUND);
+        }
+
+        List<Follow> follows = followRepository.getFollowsByIdSeguidor(idSeguidor);
+
+        if (follows.isEmpty()) {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
+        }
+
+        List<Long> ids = follows.stream().map(Follow::getIdSeguido).toList();
+
+        return new ResponseEntity<>(ids, HttpStatus.OK);
+
     }
 
 }

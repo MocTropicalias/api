@@ -112,4 +112,21 @@ public class FollowController {
         return new ResponseEntity<>("Erro interno na api", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @GetMapping("/getAllfollowing/{id}")
+    @Operation(summary = "Procurar todos os usuários seguidos por um usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Quantidade retornada com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Follow.class))
+            ),
+            @ApiResponse(responseCode = "404", description = "Usuário não existe no banco!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> getAllFollowing(@PathVariable("id") Long id) {
+
+        if(id < 1){
+            return new ResponseEntity<>("Usuário nao encontrado", HttpStatus.NOT_FOUND);
+        }
+
+        return followService.getAllFollowing(id);
+    }
 }
