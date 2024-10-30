@@ -7,13 +7,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+// Repository
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
-    Optional<Follow> getFollowByIdSeguidoAndIdSeguidor(Long idSeguidor, Long idSeguido);
+    Optional<Follow> getFollowByIdSeguidorAndIdSeguido(Long idSeguidor, Long idSeguido);
     int countFollowsByIdSeguido(Long id);
 
     int countFollowsByIdSeguidor(Long id);
 
-    boolean deleteFollowByIdSeguidoAndIdSeguidor(Long idSeguido, Long idSeguidor);
+    void deleteByIdSeguidorAndIdSeguido(Long idSeguidor, Long idSeguido);
 }
+

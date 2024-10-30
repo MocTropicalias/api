@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Tag(name = "Follow")
 @RestController
 @RequestMapping("/follow")
@@ -84,6 +86,7 @@ public class FollowController {
         return followService.isFollowing(idSeguido, idSeguidor);
     }
 
+    // Controller
     @PostMapping("/{idSeguido}/{idSeguidor}")
     @Operation(summary = "Ação de seguir ou deixar de seguir um usuário")
     @ApiResponses(value = {
@@ -94,21 +97,19 @@ public class FollowController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public ResponseEntity<?> followed(@PathVariable("idSeguido") Long idSeguido, @PathVariable("idSeguidor") Long idSeguidor){
-        int resposta = followService.followed(idSeguido, idSeguidor);
+        int resposta = followService.followed(idSeguidor, idSeguido);
 
-        if(resposta == -2){
+        if (resposta == -2) {
             return new ResponseEntity<>("Usuário que segue não existe!", HttpStatus.NOT_FOUND);
-        }
-        else if (resposta == -1) {
+        } else if (resposta == -1) {
             return new ResponseEntity<>("Usuário seguido não existe!", HttpStatus.NOT_FOUND);
-        }
-        else if (resposta == 0) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        }
-        else if (resposta == 1){
-            return new ResponseEntity<>(false, HttpStatus.OK);
+        } else if (resposta == 0) {
+            return new ResponseEntity<>(Map.of("following", true), HttpStatus.OK);
+        } else if (resposta == 1) {
+            return new ResponseEntity<>(Map.of("following", false), HttpStatus.OK);
         }
 
         return new ResponseEntity<>("Erro interno na api", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }
