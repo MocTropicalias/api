@@ -13,10 +13,13 @@ import org.example.tropicaliasapi.service.EstadoService;
 import org.example.tropicaliasapi.service.MascoteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+import static org.example.tropicaliasapi.utils.Utils.getErros;
 
 @Tag(name = "Mascote")
 @RestController
@@ -73,4 +76,29 @@ public class MascoteController {
         }
         return new ResponseEntity<>(mascote, HttpStatus.OK);
     }
+
+    @PutMapping("/")
+    @Operation(summary = "Atualizar mascote")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Mascote atualizado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Mascote.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "Informações inválidas", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Mascote não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> updateMascot(@Validated @RequestBody Mascote mascote, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, String> erros = getErros(result);
+            return ResponseEntity.badRequest().body(erros);
+        }
+
+        Mascote updatedMascote = mascoteService.atualizarMascote(mascote);
+        if (updatedMascote == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O mascote não foi encontrado");
+        }
+
+        return ResponseEntity.ok(updatedMascote);
+    }
+
 }

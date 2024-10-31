@@ -38,4 +38,12 @@ public class MascoteService {
         Mascote mascote = new Mascote("Araci", userId, corService.getById(1L));
         return save(mascote);
     }
+
+    public Mascote atualizarMascote(Mascote mascote){
+        if(mascote.getId() == null){
+            return null;
+        }
+
+        return save(mascote);
+    }
 }
