@@ -13,7 +13,10 @@ import java.util.List;
 public class MascoteService {
     MascoteRepository mascoteRepository;
 
-    public MascoteService(MascoteRepository mascoteRepository) {
+    CorService corService;
+
+    public MascoteService(MascoteRepository mascoteRepository, CorService corService) {
+        this.corService = corService;
         this.mascoteRepository = mascoteRepository;
     }
 
@@ -32,7 +35,7 @@ public class MascoteService {
     }
 
     public Mascote criarMascoteCadastro(Long userId){
-        Mascote mascote = new Mascote("Araci", userId, 1);
+        Mascote mascote = new Mascote("Araci", userId, corService.getById(1L));
         return save(mascote);
     }
 }

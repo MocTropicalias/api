@@ -1,7 +1,6 @@
 package org.example.tropicaliasapi.model;
 
 import jakarta.persistence.*;
-import java.util.Date;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
@@ -23,18 +22,19 @@ public class Mascote {
     @Schema(description = "O ID do usuário associado ao mascote", example = "101")
     private Long usuarioId;
 
-    @Column(name = "fk_int_id_cor_araci")
-    @Schema(description = "O ID da cor araci associada ao mascote", example = "202")
-    private Integer corAraciId;
+    @ManyToOne
+    @JoinColumn(name = "fk_int_id_cor_araci", referencedColumnName = "pk_int_id_cor_araci", nullable = false)
+    @Schema(description = "A cor araci associada ao mascote")
+    private Cor corAraci;
 
-    // Construtores
-    public Mascote() {
-    }
+    // Construtor padrão
+    public Mascote() {}
 
-    public Mascote(String nome, Long usuarioId, Integer corAraciId) {
+    // Construtor com parâmetros
+    public Mascote(String nome, Long usuarioId, Cor corAraci) {
         this.nome = nome;
         this.usuarioId = usuarioId;
-        this.corAraciId = corAraciId;
+        this.corAraci = corAraci;
     }
 
     // Getters e Setters
@@ -62,12 +62,12 @@ public class Mascote {
         this.usuarioId = usuarioId;
     }
 
-    public Integer getCorAraciId() {
-        return corAraciId;
+    public Cor getCorAraci() {
+        return corAraci;
     }
 
-    public void setCorAraciId(Integer corAraciId) {
-        this.corAraciId = corAraciId;
+    public void setCorAraci(Cor corAraci) {
+        this.corAraci = corAraci;
     }
 
     // Método toString
@@ -77,7 +77,8 @@ public class Mascote {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", usuarioId=" + usuarioId +
-                ", corAraciId=" + corAraciId +
+                ", corAraci=" + corAraci +
                 '}';
     }
 }
+
