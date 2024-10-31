@@ -62,4 +62,8 @@ public class TicketService {
         ticket.setQuantidade(ticket.getQuantidade() + quantity);
         return ResponseEntity.ok(ticketRepository.save(ticket));
     }
+
+    public List<Ticket> getTicketsByUserId(Long userId) {
+        return ticketRepository.findByIdUsuario(userId);
+    }
 }

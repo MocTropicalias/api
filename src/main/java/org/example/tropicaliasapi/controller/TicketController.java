@@ -80,4 +80,15 @@ public class TicketController {
     public ResponseEntity<?> addTickets(@RequestParam Long id, @RequestParam int tickets) {
         return ticketService.addTickets(id, tickets);
     }
+
+    @GetMapping("/{userId}")
+    @Operation(summary = "Procurar todos os tickets de um usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tickets retornados com sucesso",
+                    content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Ticket.class)))),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> getByUserId(@PathVariable("userId") Long id) {
+        return ResponseEntity.ok(ticketService.getTicketsByUserId(id));
+    }
 }
