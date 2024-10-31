@@ -23,27 +23,15 @@ public class Barraca {
     @Schema(description = "Número de tickets Usados na Barraca", example = "100")
     private Integer numTickets;
 
-    @Column(name = "createdAt", nullable = true)
-    @Schema(description = "Data de criação da barraca", example = "2024-09-01")
-    @Temporal(TemporalType.DATE)
-    private Date createdAt;
-
-    @Column(name = "deletedAt", nullable = true)
-    @Schema(description = "Data de exclusão da barraca", example = "2024-09-30")
-    @Temporal(TemporalType.DATE)
-    private Date deletedAt;
-
     @Column(name = "fk_int_id_evento", nullable = false)
     @Schema(description = "ID do evento ao qual a barraca está associada", example = "10")
     private Integer idEvento;
 
     public Barraca(){}
 
-    public Barraca(String nome, Integer numTickets, Date createdAt, Date deletedAt, Integer idEvento) {
+    public Barraca(String nome, Integer numTickets, Integer idEvento) {
         this.nome = nome;
         this.numTickets = numTickets;
-        this.createdAt = createdAt;
-        this.deletedAt = deletedAt;
         this.idEvento = idEvento;
     }
 
@@ -72,22 +60,6 @@ public class Barraca {
         this.numTickets = numTickets;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
     public Integer getIdEvento() {
         return idEvento;
     }
@@ -102,8 +74,6 @@ public class Barraca {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", numTickets=" + numTickets +
-                ", createdAt=" + createdAt +
-                ", deletedAt=" + deletedAt +
                 ", idEvento=" + idEvento +
                 '}';
     }

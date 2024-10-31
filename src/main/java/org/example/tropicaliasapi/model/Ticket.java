@@ -19,31 +19,22 @@ public class Ticket {
     @Schema(description = "Quantidade de tickets", example = "2")
     private Integer quantidade;
 
-    @Column(name = "createdAt", nullable = true)
-    @Schema(description = "Data de criação do ticket", example = "2024-01-01")
-    @Temporal(TemporalType.DATE)
-    private Date createdAt;
-
-    @Column(name = "deletedAt", nullable = true)
-    @Schema(description = "Data de exclusão do ticket", example = "2024-12-31")
-    @Temporal(TemporalType.DATE)
-    private Date deletedAt;
-
     @Column(name = "fk_int_id_usuario", nullable = false)
     @Schema(description = "ID do usuário que comprou o ticket", example = "10")
     private Long idUsuario;
 
-    @Column(name = "fk_int_id_evento", nullable = false)
-    @Schema(description = "ID do evento relacionado ao ticket", example = "5")
-    private Long idEvento;
+    @ManyToOne
+    @JoinColumn(name = "fk_int_id_evento", referencedColumnName = "pk_int_id_evento", nullable = false)
+    @Schema(description = "Evento relacionado ao ticket")
+    private Evento evento; // Relacionamento com Evento
 
-    public Ticket(Integer quantidade, Long idUsuario, Long idEvento) {
+    public Ticket(Integer quantidade, Long idUsuario, Evento evento) {
         this.quantidade = quantidade;
         this.idUsuario = idUsuario;
-        this.idEvento = idEvento;
+        this.evento = evento;
     }
 
-    public Ticket(){}
+    public Ticket() {}
 
     // Getters e Setters
     public Long getId() {
@@ -62,22 +53,6 @@ public class Ticket {
         this.quantidade = quantidade;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
     public Long getIdUsuario() {
         return idUsuario;
     }
@@ -86,23 +61,20 @@ public class Ticket {
         this.idUsuario = idUsuario;
     }
 
-    public Long getIdEvento() {
-        return idEvento;
+    public Evento getEvento() {
+        return evento;
     }
 
-    public void setIdEvento(Long idEvento) {
-        this.idEvento = idEvento;
+    public void setEvento(Evento evento) {
+        this.evento = evento;
     }
 
     @Override
     public String toString() {
         return "Ticket{" +
                 "id=" + id +
-                ", quantidade=" + quantidade +
-                ", createdAt=" + createdAt +
-                ", deletedAt=" + deletedAt +
                 ", idUsuario=" + idUsuario +
-                ", idEvento=" + idEvento +
+                ", evento=" + (evento != null ? evento.getNome() : "null") + // Exibe o nome do evento associado
                 '}';
     }
 }

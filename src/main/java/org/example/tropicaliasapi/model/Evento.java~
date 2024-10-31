@@ -37,6 +37,16 @@ public class Evento {
     @Temporal(TemporalType.DATE)
     private Date dataFinal;
 
+    @Column(name = "createdAt", nullable = true)
+    @Schema(description = "Data de criação do evento", example = "2024-01-01")
+    @Temporal(TemporalType.DATE)
+    private Date createdAt;
+
+    @Column(name = "deletedAt", nullable = true)
+    @Schema(description = "Data de exclusão do evento", example = "2024-12-31")
+    @Temporal(TemporalType.DATE)
+    private Date deletedAt;
+
     @Column(name = "fk_int_id_usuario", nullable = false)
     @Schema(description = "ID do usuário organizador do evento", example = "10")
     private Integer idUsuario;
@@ -58,57 +68,8 @@ public class Evento {
 
     public Evento(){}
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getLocal() {
-        return local;
-    }
-
-    public void setLocal(String local) {
-        this.local = local;
-    }
-
-    public Float getPrecoTicket() {
-        return precoTicket;
-    }
-
-    public void setPrecoTicket(Float precoTicket) {
-        this.precoTicket = precoTicket;
-    }
-
-    public Date getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(Date dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public Date getDataFinal() {
-        return dataFinal;
-    }
-
-    public void setDataFinal(Date dataFinal) {
-        this.dataFinal = dataFinal;
-    }
-
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+    // Getters e Setters
+    // ... (demais getters e setters omitidos para brevidade)
 
     public List<Barraca> getBarracas() {
         return barracas;
@@ -127,6 +88,8 @@ public class Evento {
                 ", precoTicket=" + precoTicket +
                 ", dataInicio=" + dataInicio +
                 ", dataFinal=" + dataFinal +
+                ", createdAt=" + createdAt +
+                ", deletedAt=" + deletedAt +
                 ", idUsuario=" + idUsuario +
                 ", barracas=" + barracas +
                 '}';

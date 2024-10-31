@@ -51,7 +51,7 @@ public class TicketController {
         return ResponseEntity.ok(ticket);
     }
 
-    @PostMapping("/")
+    @PostMapping
     @Operation(summary = "Criar um ticket de um usuário (Cadastrar um usuário em um evento)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Ticket criado com sucesso",
@@ -60,13 +60,13 @@ public class TicketController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public ResponseEntity<?> createTicket(@RequestParam Long idUser, @RequestParam Long idEvent) {
-        Ticket createdTicket = ticketService.cadastrarUserEvento(idEvent, idUser);
+        ResponseEntity<?> response = ticketService.cadastrarUserEvento(idUser, idEvent);
 
-        if(createdTicket == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O ticket não foi criado, verifique se os id's dos usuários e do evento estão corretos");
+        if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O ticket não foi criado, verifique se os ID's dos usuários e do evento estão corretos");
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdTicket);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response.getBody());
     }
 
     @PatchMapping("/addTickets")

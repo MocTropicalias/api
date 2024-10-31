@@ -1,21 +1,20 @@
 package org.example.tropicaliasapi.service;
 
-import org.example.tropicaliasapi.model.StatusVenda;
+import org.example.tropicaliasapi.model.Evento;
 import org.example.tropicaliasapi.model.Ticket;
-import org.example.tropicaliasapi.repository.StatusVendaRepository;
 import org.example.tropicaliasapi.repository.TicketRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class TicketService {
-    TicketRepository ticketRepository;
-
-    UserService userService;
-    EventoService eventoService;
+    private final TicketRepository ticketRepository;
+    private final UserService userService;
+    private final EventoService eventoService;
 
     public TicketService(TicketRepository ticketRepository, UserService userService, EventoService eventoService) {
         this.ticketRepository = ticketRepository;
@@ -23,42 +22,44 @@ public class TicketService {
         this.eventoService = eventoService;
     }
 
-    public List<Ticket> getAll(){
+    public List<Ticket> getAll() {
         return ticketRepository.findAll();
     }
 
-    public Ticket getById(Long id){
+    public Ticket getById(Long id) {
         return ticketRepository.findById(id).orElse(null);
     }
 
-    public Ticket cadastrarUserEvento(Long userId, Long eventoId){
-
-
+    public ResponseEntity<?> cadastrarUserEvento(Long userId, Long eventoId) {
+        // Verifica se o usuário existe
         if (userService.getUserByID(userId) == null) {
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
         }
 
-        if (eventoService.getById(eventoId) == null) {
-            return null;
+        // Verifica se o evento existe
+        Evento evento = eventoService.getById(eventoId);
+        if (evento == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Evento não encontrado");
         }
 
-        Ticket ticket = new Ticket(0, userId, eventoId);
-        return ticketRepository.save(ticket);
+        // Cria um novo ticket
+        Ticket ticket = new Ticket(0, userId, evento); // Passa a instância de Evento
+        return ResponseEntity.status(HttpStatus.CREATED).body(ticketRepository.save(ticket));
     }
 
-    public ResponseEntity<?> addTickets(Long id, int quantity){
+    public ResponseEntity<?> addTickets(Long id, int quantity) {
         Ticket ticket = ticketRepository.findById(id).orElse(null);
 
         if (ticket == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O ticket não foi encontrado");
         }
 
-        if(quantity < 1){
+        if (quantity < 1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Quantidade inválida");
         }
 
+        // Atualiza a quantidade de tickets
         ticket.setQuantidade(ticket.getQuantidade() + quantity);
         return ResponseEntity.ok(ticketRepository.save(ticket));
     }
-
 }
