@@ -134,7 +134,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
-    public ResponseEntity<?> updateUser(@PathVariable("id") int id, @Validated UserUpdate user, BindingResult result) {
+    public ResponseEntity<?> updateUser(@PathVariable("id") int id, @Validated @RequestBody UserUpdate user, BindingResult result) {
         Map<String, String> erros = getErros(result);
         if (!erros.isEmpty()) {
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
