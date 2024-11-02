@@ -70,7 +70,7 @@ public class MascoteController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public ResponseEntity<?> getByUserId(@PathVariable("userid") Long id) {
-        Mascote mascote = mascoteService.getById(id);
+        Mascote mascote = mascoteService.getByUserId(id);
         if (mascote == null) {
             return new ResponseEntity<>("O mascote não foi encontrado", HttpStatus.NOT_FOUND);
         }
