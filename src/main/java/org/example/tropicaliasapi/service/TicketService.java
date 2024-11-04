@@ -42,9 +42,15 @@ public class TicketService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Evento não encontrado");
         }
 
+        //Verifica se o ticket já existe
+        Ticket ticket = ticketRepository.findByUserIdAndEventId(userId, eventoId);
+        if (ticket != null) {
+            return ResponseEntity.status(HttpStatus.OK).body("Ticket ja existe");
+        }
+
         // Cria um novo ticket
-        Ticket ticket = new Ticket(0, userId, evento); // Passa a instância de Evento
-        return ResponseEntity.status(HttpStatus.CREATED).body(ticketRepository.save(ticket));
+        Ticket newTicket = new Ticket(0, userId, evento); // Passa a instância de Evento
+        return ResponseEntity.status(HttpStatus.CREATED).body(ticketRepository.save(newTicket));
     }
 
     public ResponseEntity<?> addTickets(Long id, int quantity) {

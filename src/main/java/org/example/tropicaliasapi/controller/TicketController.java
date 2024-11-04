@@ -54,19 +54,14 @@ public class TicketController {
     @PostMapping
     @Operation(summary = "Criar um ticket de um usuário (Cadastrar um usuário em um evento)")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ticket retornado com sucesso"),
             @ApiResponse(responseCode = "201", description = "Ticket criado com sucesso",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Ticket.class))),
             @ApiResponse(responseCode = "404", description = "Usuário ou evento não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public ResponseEntity<?> createTicket(@RequestParam Long idUser, @RequestParam Long idEvent) {
-        ResponseEntity<?> response = ticketService.cadastrarUserEvento(idUser, idEvent);
-
-        if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O ticket não foi criado, verifique se os ID's dos usuários e do evento estão corretos");
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response.getBody());
+        return ticketService.cadastrarUserEvento(idUser, idEvent);
     }
 
     @PatchMapping("/addTickets")
