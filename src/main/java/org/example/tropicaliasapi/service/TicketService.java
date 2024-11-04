@@ -45,7 +45,7 @@ public class TicketService {
         // Verifica se o ticket já existe
         Ticket ticket = ticketRepository.findByIdUsuarioAndEvento_Id(userId, eventoId);
         if (ticket != null) {
-            return ResponseEntity.status(HttpStatus.OK).body("Ticket já existe");
+            return ResponseEntity.status(HttpStatus.OK).body(ticket);
         }
 
         // Cria um novo ticket
