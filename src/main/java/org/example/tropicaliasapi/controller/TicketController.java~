@@ -81,7 +81,7 @@ public class TicketController {
         return ticketService.addTickets(id, tickets);
     }
 
-    @GetMapping("/uset/{userId}")
+    @GetMapping("/{userId}")
     @Operation(summary = "Procurar todos os tickets de um usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Tickets retornados com sucesso",
