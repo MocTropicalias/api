@@ -42,10 +42,10 @@ public class TicketService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Evento não encontrado");
         }
 
-        // Verifica se o ticket já existe
-        Ticket ticket = ticketRepository.findByIdUsuarioAndEvento_Id(userId, eventoId);
+        //Verifica se o ticket já existe
+        Ticket ticket = ticketRepository.findByUserIdAndEventId(userId, eventoId);
         if (ticket != null) {
-            return ResponseEntity.status(HttpStatus.OK).body("Ticket já existe");
+            return ResponseEntity.status(HttpStatus.OK).body("Ticket ja existe");
         }
 
         // Cria um novo ticket

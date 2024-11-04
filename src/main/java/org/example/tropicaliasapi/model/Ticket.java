@@ -3,8 +3,6 @@ package org.example.tropicaliasapi.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "tb_ticket")
 @Schema(description = "Representa os tickets de um usuário em um evento")
@@ -74,7 +72,7 @@ public class Ticket {
         return "Ticket{" +
                 "id=" + id +
                 ", idUsuario=" + idUsuario +
-                ", evento=" + (evento != null ? evento.getNome() : "null") + // Exibe o nome do evento associado
+                ", evento=" + (evento != null ? evento.getNome() : "null") +
                 '}';
     }
 }
