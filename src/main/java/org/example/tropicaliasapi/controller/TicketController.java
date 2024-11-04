@@ -60,7 +60,7 @@ public class TicketController {
             @ApiResponse(responseCode = "404", description = "Usuário ou evento não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
-    public ResponseEntity<?> createTicket(@RequestParam Long idUser, @RequestParam Long idEvent) {
+    public ResponseEntity<?> createTicket(@RequestParam(name = "idUser") @Schema(implementation = Long.class ) Long idUser, @RequestParam(name = "idEvent") @Schema(implementation = Long.class) Long idEvent) {
         return ticketService.cadastrarUserEvento(idUser, idEvent);
     }
 
