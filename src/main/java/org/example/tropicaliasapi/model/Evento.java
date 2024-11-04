@@ -41,12 +41,20 @@ public class Evento {
     @Schema(description = "ID do usuário organizador do evento", example = "10")
     private Integer idUsuario;
 
+    @Column(name = "var_imagem")
+    @Schema(description = "Imagem do evento")
+    private String imagem;
+
+    @Column(name = "var_descricao")
+    @Schema(description = "Descrição do evento")
+    private String descricao;
+
     @OneToMany
     @JoinColumn(name = "fk_int_id_evento", referencedColumnName = "pk_int_id_evento")
     @Schema(description = "Lista de barracas associadas ao evento")
     private List<Barraca> barracas;
 
-    public Evento(String nome, String local, Float precoTicket, Date dataInicio, Date dataFinal, Integer idUsuario) {
+    public Evento(String nome, String local, Float precoTicket, Date dataInicio, Date dataFinal, Integer idUsuario, String imagem, String descricao) {
         this.id = id;
         this.nome = nome;
         this.local = local;
@@ -54,6 +62,8 @@ public class Evento {
         this.dataInicio = dataInicio;
         this.dataFinal = dataFinal;
         this.idUsuario = idUsuario;
+        this.imagem = imagem;
+        this.descricao = descricao;
     }
 
     public Evento(){}
@@ -128,6 +138,8 @@ public class Evento {
                 ", dataInicio=" + dataInicio +
                 ", dataFinal=" + dataFinal +
                 ", idUsuario=" + idUsuario +
+                ", imagem='" + imagem + '\'' +
+                ", descricao='" + descricao + '\'' +
                 ", barracas=" + barracas +
                 '}';
     }
