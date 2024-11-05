@@ -51,7 +51,7 @@ public class TicketController {
         return ResponseEntity.ok(ticket);
     }
 
-    @PostMapping
+    @PostMapping("/")
     @Operation(summary = "Criar um ticket de um usuário (Cadastrar um usuário em um evento)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ticket retornado com sucesso"),
@@ -76,7 +76,7 @@ public class TicketController {
         return ticketService.addTickets(id, tickets);
     }
 
-    @GetMapping("/uset/{userId}")
+    @GetMapping("/user/{userId}")
     @Operation(summary = "Procurar todos os tickets de um usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Tickets retornados com sucesso",
