@@ -2,8 +2,8 @@ package org.example.tropicaliasapi.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_evento")
@@ -37,21 +37,24 @@ public class Evento {
     @Temporal(TemporalType.DATE)
     private Date dataFinal;
 
-    @Column(name = "createdAt", nullable = true)
-    @Schema(description = "Data de criação do evento", example = "2024-01-01")
-    @Temporal(TemporalType.DATE)
-    private Date createdAt;
-
-    @Column(name = "deletedAt", nullable = true)
-    @Schema(description = "Data de exclusão do evento", example = "2024-12-31")
-    @Temporal(TemporalType.DATE)
-    private Date deletedAt;
-
     @Column(name = "fk_int_id_usuario", nullable = false)
     @Schema(description = "ID do usuário organizador do evento", example = "10")
     private Integer idUsuario;
 
-    public Evento(String nome, String local, Float precoTicket, Date dataInicio, Date dataFinal, Integer idUsuario) {
+    @Column(name = "var_imagem")
+    @Schema(description = "Imagem do evento")
+    private String imagem;
+
+    @Column(name = "var_descricao")
+    @Schema(description = "Descrição do evento")
+    private String descricao;
+
+    @OneToMany
+    @JoinColumn(name = "fk_int_id_evento", referencedColumnName = "pk_int_id_evento")
+    @Schema(description = "Lista de barracas associadas ao evento")
+    private List<Barraca> barracas;
+
+    public Evento(String nome, String local, Float precoTicket, Date dataInicio, Date dataFinal, Integer idUsuario, String imagem, String descricao) {
         this.id = id;
         this.nome = nome;
         this.local = local;
@@ -59,17 +62,14 @@ public class Evento {
         this.dataInicio = dataInicio;
         this.dataFinal = dataFinal;
         this.idUsuario = idUsuario;
+        this.imagem = imagem;
+        this.descricao = descricao;
     }
 
     public Evento(){}
 
-    // Getters e Setters
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -112,28 +112,36 @@ public class Evento {
         this.dataFinal = dataFinal;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
     public Integer getIdUsuario() {
         return idUsuario;
     }
 
     public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public List<Barraca> getBarracas() {
+        return barracas;
+    }
+
+    public void setBarracas(List<Barraca> barracas) {
+        this.barracas = barracas;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     @Override
@@ -145,9 +153,10 @@ public class Evento {
                 ", precoTicket=" + precoTicket +
                 ", dataInicio=" + dataInicio +
                 ", dataFinal=" + dataFinal +
-                ", createdAt=" + createdAt +
-                ", deletedAt=" + deletedAt +
                 ", idUsuario=" + idUsuario +
+                ", imagem='" + imagem + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", barracas=" + barracas +
                 '}';
     }
 }

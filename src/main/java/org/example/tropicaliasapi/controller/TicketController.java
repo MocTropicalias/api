@@ -7,22 +7,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.tropicaliasapi.model.StatusVenda;
 import org.example.tropicaliasapi.model.Ticket;
-import org.example.tropicaliasapi.service.StatusVendaService;
 import org.example.tropicaliasapi.service.TicketService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Ticket")
 @RestController
 @RequestMapping("/ticket")
 public class TicketController {
-    TicketService ticketService;
+
+    private final TicketService ticketService;
 
     public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
@@ -31,29 +27,63 @@ public class TicketController {
     @GetMapping
     @Operation(summary = "Procurar todos os tickets dos usuários")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Tickets retornadas com sucesso",
-                    content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Ticket.class)))
-            ),
+            @ApiResponse(responseCode = "200", description = "Tickets retornados com sucesso",
+                    content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Ticket.class)))),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public ResponseEntity<?> getAll() {
-        return new ResponseEntity<>(ticketService.getAll(), HttpStatus.OK);
+        return ResponseEntity.ok(ticketService.getAll());
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Procurar os tickets pelo seu id")
+    @Operation(summary = "Procurar o ticket pelo seu ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Tickets retornada com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Ticket.class))
-            ),
-            @ApiResponse(responseCode = "404", description = "Tickets não encontrada", content = @Content),
+            @ApiResponse(responseCode = "200", description = "Ticket retornado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Ticket.class))),
+            @ApiResponse(responseCode = "404", description = "Ticket não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
-    public ResponseEntity<?> getByID(@PathVariable("id") Long id) {
+    public ResponseEntity<?> getById(@PathVariable("id") Long id) {
         Ticket ticket = ticketService.getById(id);
         if (ticket == null) {
-            return new ResponseEntity<>("O ticket não foi encontrado", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O ticket não foi encontrado");
         }
-        return new ResponseEntity<>(ticket, HttpStatus.OK);
+        return ResponseEntity.ok(ticket);
+    }
+
+    @PostMapping("/")
+    @Operation(summary = "Criar um ticket de um usuário (Cadastrar um usuário em um evento)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ticket retornado com sucesso"),
+            @ApiResponse(responseCode = "201", description = "Ticket criado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Ticket.class))),
+            @ApiResponse(responseCode = "404", description = "Usuário ou evento não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> createTicket(@RequestParam(name = "idUser") @Schema(implementation = Long.class ) Long idUser, @RequestParam(name = "idEvent") @Schema(implementation = Long.class) Long idEvent) {
+        return ticketService.cadastrarUserEvento(idUser, idEvent);
+    }
+
+    @PatchMapping("/addTickets")
+    @Operation(summary = "Adicionar tickets ao saldo de um cliente em um evento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tickets adicionados ao saldo do cliente",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Ticket.class))),
+            @ApiResponse(responseCode = "404", description = "Ticket não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> addTickets(@RequestParam Long id, @RequestParam int tickets) {
+        return ticketService.addTickets(id, tickets);
+    }
+
+    @GetMapping("/user/{userId}")
+    @Operation(summary = "Procurar todos os tickets de um usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tickets retornados com sucesso",
+                    content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Ticket.class)))),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> getByUserId(@PathVariable("userId") Long id) {
+        return ResponseEntity.ok(ticketService.getTicketsByUserId(id));
     }
 }

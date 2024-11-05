@@ -23,6 +23,16 @@ public class Follow {
     @Schema(description = "ID do usuário que é seguido", example = "202")
     private Long idSeguido;
 
+    @Column(name = "createdAt", nullable = true)
+    @Schema(description = "Data em que o follow foi criado", example = "2024-01-01")
+    @Temporal(TemporalType.DATE)
+    private Date createdAt;
+
+    @Column(name = "deletedAt", nullable = true)
+    @Schema(description = "Data em que o follow foi removido", example = "2024-12-31")
+    @Temporal(TemporalType.DATE)
+    private Date deletedAt;
+
     public Follow(Long idSeguidor, Long idSeguido) {
         this.idSeguidor = idSeguidor;
         this.idSeguido = idSeguido;
@@ -55,12 +65,30 @@ public class Follow {
         this.idSeguido = idSeguido;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
     @Override
     public String toString() {
         return "Follow{" +
                 "id=" + id +
                 ", idSeguidor=" + idSeguidor +
                 ", idSeguido=" + idSeguido +
+                ", createdAt=" + createdAt +
+                ", deletedAt=" + deletedAt +
                 '}';
     }
 }

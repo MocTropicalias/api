@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.tropicaliasapi.domain.UserCreate;
+import org.example.tropicaliasapi.domain.UserReturn;
 import org.example.tropicaliasapi.domain.UserUpdate;
 import org.example.tropicaliasapi.model.User;
 import org.example.tropicaliasapi.service.UserService;
@@ -81,8 +82,8 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
-    public ResponseEntity<?> getByID(@PathVariable("id") int id) {
-        User user = userService.getByID(id);
+    public ResponseEntity<?> getByID(@PathVariable("id") Long id) {
+        UserReturn user = userService.getByID(id);
         if (user == null) {
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
@@ -100,13 +101,27 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public ResponseEntity<?> getByID(@PathVariable("id") String firebaseId) {
-        User user = userService.getByFirebaseId(firebaseId);
+        UserReturn user = userService.getByFirebaseId(firebaseId);
         if (user == null) {
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/authorization/{email}/{senha}")
+    @Operation(summary = "Verificar se o usuário é admin pelo email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário autorizado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+            ),
+            @ApiResponse(responseCode = "401", description = "Informações inválidas", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Usuário não autorizado", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
+    public ResponseEntity<?> isUserAuthorized(@PathVariable("email") String email, @PathVariable("senha") String senha) {
+        return userService.isUserAuthorized(email, senha);
+    }
     //Update//////////////////////////////////////////////////////////////////////////////////
 
     @PutMapping("/{id}")
@@ -119,7 +134,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
-    public ResponseEntity<?> updateUser(@PathVariable("id") int id, @Validated UserUpdate user, BindingResult result) {
+    public ResponseEntity<?> updateUser(@PathVariable("id") int id, @Validated @RequestBody UserUpdate user, BindingResult result) {
         Map<String, String> erros = getErros(result);
         if (!erros.isEmpty()) {
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
@@ -131,7 +146,7 @@ public class UserController {
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    @PutMapping("/users/photo/{id}/{photo}")
+    @PutMapping("/photo/{id}/{photo}")
     @Operation( summary = "Adicionar foto para o usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuários retornado com sucesso",

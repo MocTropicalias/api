@@ -35,7 +35,7 @@ public class MascoteService {
     }
 
     public Mascote criarMascoteCadastro(Long userId){
-        Mascote mascote = new Mascote("Araci", userId, corService.getById(0L));
+        Mascote mascote = new Mascote("Araci", userId, corService.getById(1L));
         return save(mascote);
     }
 

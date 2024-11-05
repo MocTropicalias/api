@@ -1,35 +1,54 @@
 package org.example.tropicaliasapi.service;
 
 import org.example.tropicaliasapi.domain.UserCreate;
+import org.example.tropicaliasapi.domain.UserReturn;
 import org.example.tropicaliasapi.domain.UserUpdate;
 import org.example.tropicaliasapi.model.User;
+import org.example.tropicaliasapi.repository.FollowRepository;
 import org.example.tropicaliasapi.repository.UserRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
     UserRepository userRepository;
+    FollowRepository followRepository;
+    MascoteService mascoteService;
+    PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, FollowRepository followRepository, MascoteService mascoteService) {
         this.userRepository = userRepository;
+        this.followRepository = followRepository;
+        this.mascoteService = mascoteService;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
 
     //Create//////////////////////////////////////////////////////////////////////////////////
 
     public User createUser(UserCreate user) {
+        // Criptografa a senha antes de salvar
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+
         User newUser = new User(
                 user.getUsername(),
                 user.getEmail(),
-                user.getPassword(),
+                encryptedPassword,  // Usa a senha criptografada
                 user.getFirebaseId()
         );
-        newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()).getTime());
-        return userRepository.save(newUser);
+
+        User createdUser = userRepository.save(newUser);
+
+        return createdUser;
     }
 
 
@@ -41,12 +60,84 @@ public class UserService {
     }
 
 
-    public User getByID(int id) {
-        return userRepository.findById(id).orElse(null);
+    public UserReturn getByID(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+
+        if(user == null){
+            return null;
+        }
+
+        UserReturn userReturn = new UserReturn(
+                user.getId(),
+                user.getUsername(),
+                user.getDescricaoUsuario(),
+                user.getNome(),
+                user.getUrlFoto(),
+                user.getFirebaseId(),
+                followRepository.countFollowsByIdSeguido(id),
+                followRepository.countFollowsByIdSeguidor(id)
+        );
+
+        return userReturn;
     }
 
-    public User getByFirebaseId(String firebaseId){
-        return userRepository.findUserByFirebaseId(firebaseId).orElse(null);
+    public UserReturn getUserByID(Long id){
+        Optional<User> user = userRepository.findById(id);
+
+        if(user.isEmpty()){
+            return null;
+        }
+
+        UserReturn userReturn = new UserReturn(
+                id,
+                user.get().getUsername(),
+                user.get().getDescricaoUsuario(),
+                user.get().getNome(),
+                user.get().getUrlFoto(),
+                user.get().getFirebaseId(),
+                followRepository.countFollowsByIdSeguido(id),
+                followRepository.countFollowsByIdSeguidor(id));
+
+        return userReturn;
+    }
+
+    public UserReturn getByFirebaseId(String firebaseId){
+
+        Optional<User> user = userRepository.findUserByFirebaseId(firebaseId);
+
+        if(user.isEmpty()){
+            return null;
+        }
+
+        UserReturn userReturn = new UserReturn(
+                user.get().getId(),
+                user.get().getUsername(),
+                user.get().getDescricaoUsuario(),
+                user.get().getNome(),
+                user.get().getUrlFoto(),
+                user.get().getFirebaseId(),
+                followRepository.countFollowsByIdSeguido(user.get().getId()),
+                followRepository.countFollowsByIdSeguidor(user.get().getId()));
+
+        return userReturn;
+    }
+
+    public ResponseEntity<?> isUserAuthorized(String email, String senha){
+        User user = userRepository.findByEmail(email);
+
+        if(user == null || user.getDeletedAt() !=  null){
+            return ResponseEntity.notFound().build();
+        }
+        else if (!passwordEncoder.matches(senha, user.getSenha())){
+            return ResponseEntity.status(401).body("Senha inválida");
+        }
+        else if(user.getUserRole() == null || !user.getUserRole().toLowerCase().equals("admin")){
+            return ResponseEntity.status(403).body("Usuário não autorizado");
+        }
+        else{
+            return ResponseEntity.ok().build();
+        }
+
     }
 
     //Update//////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +150,7 @@ public class UserService {
         }
 
         user.setUrlFoto(url);
+
         return userRepository.save(user);
     }
 
@@ -94,7 +186,7 @@ public class UserService {
             return null;
         }
 
-        user.setDeletedAt(new Timestamp(System.currentTimeMillis()).getTime());
+        user.setDeletedAt(Date.valueOf(LocalDate.now()));
         return userRepository.save(user);
     }
 

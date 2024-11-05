@@ -3,8 +3,10 @@ package org.example.tropicaliasapi.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.example.tropicaliasapi.domain.UserUpdate;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -17,7 +19,7 @@ public class User {
     @Column(name = "pk_int_id_usuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID do usuário, gerado automaticamente", example = "1")
-    private long id;
+    private Long id;
 
     @Column(name = "var_email", nullable = false, unique = true)
     @Schema(description = "Email do usuário", example = "example@example.com")
@@ -25,13 +27,13 @@ public class User {
 
     @Column(name = "var_user_name", nullable = false, unique = true)
     @Schema(description = "Nome do usuário", example = "usuario1")
-    private String userName;
+    private String username;
 
     @Column(name = "var_descricao_usuario")
     @Schema(description = "Biografia do usuário", example = "Lorem ipsum dolor sit amet")
     private String descricaoUsuario;
 
-    @Column(name = "var_cpf", nullable = false, unique = true)
+    @Column(name = "var_cpf", unique = true)
     @Schema(description = "CPF do usuário", example = "12345678901")
     private String cpf;
 
@@ -47,30 +49,51 @@ public class User {
     @Schema(description = "Senha do usuário", example = "HLsdasdBDibadhAsaIUidabspaADdiub")
     private String senha;
 
-    @Column(name = "text_foto")
+    @Column(name = "var_foto")
     @Schema(description = "URL da foto do usuário", example = "https://url.com/foto.jpg")
     private String urlFoto;
 
-    @Column(name = "deleted_at")
+    @Column(name = "deletedat")
     @Schema(description = "Timestamp da deleção do usuário", example = "1622567890")
-    private Long deletedAt;
+    private Date deletedAt;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "createdat", nullable = false)
     @Schema(description = "Timestamp da criação do usuário", example = "1612567890")
-    private Long createdAt;
+    private Date createdAt;
 
     @Column(name = "var_id_firebase", nullable = false, unique = true)
     @Schema(description = "ID gerado pelo Firebase para o usuário", example = "tKBGsn4xIRMWWzyT2Okim6YuoZ23")
     private String firebaseId;
 
+    @Column(name = "var_role")
+    @Schema(description = "Permissão do usuário", example = "ADMIN")
+    private String userRole;
+
     // Construtores /////////////////////////////////////////////////////////////
 
-    public User(String userName, String email, String senha, String firebaseId) {
-        this.userName = userName;
+    public User(String username, String email, String senha, String firebaseId) {
+        this.username = username;
         this.email = email;
         this.senha = senha;
         this.firebaseId = firebaseId;
-        this.createdAt = System.currentTimeMillis();  // Define o timestamp de criação automaticamente
+        this.createdAt = Date.valueOf(LocalDate.now());  // Define o timestamp de criação automaticamente
+        this.userRole = "USER";
+    }
+
+    public User(Long id, String email, String username, String descricaoUsuario, String cpf, String nome, Date nascimento, String senha, String urlFoto, Date deletedAt, Date createdAt, String firebaseId) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.descricaoUsuario = descricaoUsuario;
+        this.cpf = cpf;
+        this.nome = nome;
+        this.nascimento = nascimento;
+        this.senha = senha;
+        this.urlFoto = urlFoto;
+        this.deletedAt = deletedAt;
+        this.createdAt = createdAt;
+        this.firebaseId = firebaseId;
+        this.userRole = "USER";
     }
 
     public User() {
@@ -79,26 +102,38 @@ public class User {
     // Métodos de Get/Set /////////////////////////////////////////////////////////////
 
     public void updateUser(UserUpdate updatedUserInformation) {
-        this.email = updatedUserInformation.getEmail();
-        this.userName = updatedUserInformation.getUserName();
-        this.descricaoUsuario = updatedUserInformation.getDescricaoUsuario();
-        this.cpf = updatedUserInformation.getCpf();
-        this.nome = updatedUserInformation.getNome();
-        this.nascimento = updatedUserInformation.getNascimento();
-        this.senha = updatedUserInformation.getSenha();
-        this.urlFoto = updatedUserInformation.getUrlFoto();
+        if (updatedUserInformation.getEmail() != null) {
+            this.email = updatedUserInformation.getEmail();
+        }
+        if (updatedUserInformation.getUsername() != null) {
+            this.username = updatedUserInformation.getUsername();
+        }
+        if (updatedUserInformation.getDescricaoUsuario() != null) {
+            this.descricaoUsuario = updatedUserInformation.getDescricaoUsuario();
+        }
+        if (updatedUserInformation.getNome() != null) {
+            this.nome = updatedUserInformation.getNome();
+        }
+        if (updatedUserInformation.getSenha() != null) {
+            this.senha = updatedUserInformation.getSenha();
+        }
+        if (updatedUserInformation.getUrlFoto() != null) {
+            this.urlFoto = updatedUserInformation.getUrlFoto();
+        }
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
+
+    public void setId(Long id){this.id = id;}
 
     public String getEmail() {
         return email;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public String getDescricaoUsuario() {
@@ -125,19 +160,19 @@ public class User {
         return urlFoto;
     }
 
-    public Long getDeletedAt() {
+    public Date getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Long deletedAt) {
+    public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
     }
 
-    public Long getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Long createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -153,12 +188,20 @@ public class User {
         this.urlFoto = urlFoto;
     }
 
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", userName='" + userName + '\'' +
+                ", userName='" + username + '\'' +
                 ", descricaoUsuario='" + descricaoUsuario + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", nome='" + nome + '\'' +
@@ -168,6 +211,7 @@ public class User {
                 ", deletedAt=" + deletedAt +
                 ", createdAt=" + createdAt +
                 ", firebaseId='" + firebaseId + '\'' +
+                ", userRole='" + userRole + '\'' +
                 '}';
     }
 }

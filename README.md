@@ -7,10 +7,10 @@
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
 
 - [x] Criação Da API
-- [ ] Criação de todos os Models
-- [ ] Criação de todos os Controllers e Padronização dos Endpoints
-- [ ] Criação dos Services e Aplicação de Regras de Negócio
-- [ ] Documentação da API (Swagger UI)
+- [x] Criação de todos os Models
+- [x] Criação de todos os Controllers e Padronização dos Endpoints
+- [x] Criação dos Services e Aplicação de Regras de Negócio
+- [x] Documentação da API (Swagger UI)
 - [ ] Regras de Segurança (Spring Security)
 
 ## 💻 Tecnologias Utilizadas
@@ -30,8 +30,8 @@ Confira as principais Linguagens, Frameworks e Bancos de Dados usados:
 ## 🤝 Colaboradores
 
 Nossos colaboradores do Projeto são:
-- <a href="https://github.com/nicolasruoco">Nícolas Albano</a?
-- Artur Cassuriaga
+- <a href="https://github.com/nicolasruoco">Nícolas Albano</a>
+- <a href="https://github.com/ArturCassu">Artur Cassuriaga</a>
 - [Se mais alguém ajudar nessa etapa, se adicionem pf!!]
 
 ## 👍 Commits Semânticos 

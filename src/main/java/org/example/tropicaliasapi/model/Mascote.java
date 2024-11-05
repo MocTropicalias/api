@@ -1,7 +1,6 @@
 package org.example.tropicaliasapi.model;
 
 import jakarta.persistence.*;
-import java.util.Date;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
@@ -11,16 +10,9 @@ public class Mascote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pk_int_id_mascote")
     @Schema(description = "O ID único do mascote", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
-
-    @Column(name = "createdAt")
-    @Schema(description = "A data de criação do registro", example = "2024-09-01")
-    private Date createdAt;
-
-    @Column(name = "deletedAt")
-    @Schema(description = "A data de exclusão do registro", example = "2024-09-02")
-    private Date deletedAt;
 
     @Column(name = "var_nome")
     @Schema(description = "O nome do mascote", example = "Fido")
@@ -28,28 +20,21 @@ public class Mascote {
 
     @Column(name = "fk_int_id_usuario")
     @Schema(description = "O ID do usuário associado ao mascote", example = "101")
-    private Integer usuarioId;
+    private Long usuarioId;
 
-    @Column(name = "fk_int_id_cor_araci")
-    @Schema(description = "O ID da cor araci associada ao mascote", example = "202")
-    private Integer corAraciId;
+    @ManyToOne
+    @JoinColumn(name = "fk_int_id_cor_araci", referencedColumnName = "pk_int_id_cor_araci", nullable = false)
+    @Schema(description = "A cor araci associada ao mascote")
+    private Cor corAraci;
 
-    // Construtores
-    public Mascote() {
-    }
+    // Construtor padrão
+    public Mascote() {}
 
-    public Mascote(Date createdAt, Date deletedAt, String nome, Integer usuarioId, Integer corAraciId) {
-        this.createdAt = createdAt;
-        this.deletedAt = deletedAt;
+    // Construtor com parâmetros
+    public Mascote(String nome, Long usuarioId, Cor corAraci) {
         this.nome = nome;
         this.usuarioId = usuarioId;
-        this.corAraciId = corAraciId;
-    }
-
-    public Mascote(String nome, Integer usuarioId, Integer corAraciId) {
-        this.nome = nome;
-        this.usuarioId = usuarioId;
-        this.corAraciId = corAraciId;
+        this.corAraci = corAraci;
     }
 
     // Getters e Setters
@@ -61,22 +46,6 @@ public class Mascote {
         this.id = id;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -85,20 +54,20 @@ public class Mascote {
         this.nome = nome;
     }
 
-    public Integer getUsuarioId() {
+    public Long getUsuarioId() {
         return usuarioId;
     }
 
-    public void setUsuarioId(Integer usuarioId) {
+    public void setUsuarioId(Long usuarioId) {
         this.usuarioId = usuarioId;
     }
 
-    public Integer getCorAraciId() {
-        return corAraciId;
+    public Cor getCorAraci() {
+        return corAraci;
     }
 
-    public void setCorAraciId(Integer corAraciId) {
-        this.corAraciId = corAraciId;
+    public void setCorAraci(Cor corAraci) {
+        this.corAraci = corAraci;
     }
 
     // Método toString
@@ -106,11 +75,10 @@ public class Mascote {
     public String toString() {
         return "Mascote{" +
                 "id=" + id +
-                ", createdAt=" + createdAt +
-                ", deletedAt=" + deletedAt +
                 ", nome='" + nome + '\'' +
                 ", usuarioId=" + usuarioId +
-                ", corAraciId=" + corAraciId +
+                ", corAraci=" + corAraci +
                 '}';
     }
 }
+
