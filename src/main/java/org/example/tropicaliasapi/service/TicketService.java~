@@ -60,9 +60,9 @@ public class TicketService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O ticket não foi encontrado");
         }
 
-//        if (quantity < 1) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Quantidade inválida");
-//        }
+        if (quantity < 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Quantidade inválida");
+        }
 
         // Atualiza a quantidade de tickets
         ticket.setQuantidade(ticket.getQuantidade() + quantity);
