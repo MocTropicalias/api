@@ -75,7 +75,8 @@ public class UserService {
                 user.getUrlFoto(),
                 user.getFirebaseId(),
                 followRepository.countFollowsByIdSeguido(id),
-                followRepository.countFollowsByIdSeguidor(id)
+                followRepository.countFollowsByIdSeguidor(id),
+                user.getUserRole()
         );
 
         return userReturn;
@@ -96,7 +97,9 @@ public class UserService {
                 user.get().getUrlFoto(),
                 user.get().getFirebaseId(),
                 followRepository.countFollowsByIdSeguido(id),
-                followRepository.countFollowsByIdSeguidor(id));
+                followRepository.countFollowsByIdSeguidor(id),
+                user.get().getUserRole()
+        );
 
         return userReturn;
     }
@@ -117,7 +120,9 @@ public class UserService {
                 user.get().getUrlFoto(),
                 user.get().getFirebaseId(),
                 followRepository.countFollowsByIdSeguido(user.get().getId()),
-                followRepository.countFollowsByIdSeguidor(user.get().getId()));
+                followRepository.countFollowsByIdSeguidor(user.get().getId()),
+                user.get().getUserRole()
+        );
 
         return userReturn;
     }

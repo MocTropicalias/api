@@ -120,7 +120,7 @@ public class UserReturn {
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
-    }
+    }  
 
     @Override
     public String toString() {
